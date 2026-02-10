@@ -1,23 +1,104 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import Properties from './pages/Properties';
+import PropertyDetails from './pages/PropertyDetails';
+import Footer from './components/Footer';
+import Login from './pages/admin/Login';
+import Dashboard from './pages/admin/Dashboard';
+import PropertyForm from './pages/admin/PropertyForm';
+import Leads from './pages/admin/Leads';
+import { useEffect, useState } from 'react';
+import { supabase } from './lib/supabase';
+import { Loader2 } from 'lucide-react';
+
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const [session, setSession] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setLoading(false);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-emerald-600" />
+      </div>
+    );
+  }
+
+  if (!session) {
+    return <Navigate to="/admin/login" replace />;
+  }
+
+  return <>{children}</>;
+}
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="min-h-screen bg-white">
+    <Router>
+      <div className="min-h-screen bg-white flex flex-col font-sans">
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/properties" element={<Properties />} />
+          <Route path="/properties/:id" element={<PropertyDetails />} />
+
+          {/* Admin Routes */}
+          <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="/admin/login" element={<Login />} />
+          <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/property/new"
+            element={
+              <ProtectedRoute>
+                <PropertyForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/property/edit/:id"
+            element={
+              <ProtectedRoute>
+                <PropertyForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/leads"
+            element={
+              <ProtectedRoute>
+                <Leads />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
         <Footer />
       </div>
-    </BrowserRouter>
+    </Router>
   );
 }
 

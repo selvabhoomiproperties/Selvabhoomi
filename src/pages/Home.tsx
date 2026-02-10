@@ -1,4 +1,5 @@
 import { ArrowRight, CheckCircle2, MapPin, Shield, TrendingUp, Users, Award, Clock, FileCheck, Landmark } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Home() {
     return (
@@ -17,7 +18,7 @@ export default function Home() {
                                 <span className="text-sm font-medium text-gray-700">Near Chennai's New Global Airport</span>
                             </div>
 
-                            <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6">
+                            <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
                                 <span className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
                                     Secure Land Assets
                                 </span>
@@ -27,16 +28,16 @@ export default function Home() {
                                 </span>
                             </h1>
 
-                            <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+                            <p className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed">
                                 Legally secure land assets that grow in value without demanding your time. Premium plots and professionally managed farmlands in high-growth infrastructure corridors.
                             </p>
 
                             <div className="flex flex-wrap gap-4 mb-10">
-                                <button className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-8 py-4 rounded-full font-semibold hover:shadow-xl hover:shadow-emerald-500/30 transition-all flex items-center gap-2 group">
+                                <Link to="/properties" className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-semibold hover:shadow-xl hover:shadow-emerald-500/30 transition-all flex items-center gap-2 group text-sm md:text-base">
                                     Explore Properties
                                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                                </button>
-                                <button className="bg-white text-gray-800 px-8 py-4 rounded-full font-semibold border-2 border-gray-200 hover:border-emerald-500 hover:text-emerald-600 transition-all">
+                                </Link>
+                                <button className="bg-white text-gray-800 px-6 py-3 md:px-8 md:py-4 rounded-full font-semibold border-2 border-gray-200 hover:border-emerald-500 hover:text-emerald-600 transition-all text-sm md:text-base">
                                     Download Brochure
                                 </button>
                             </div>
@@ -380,10 +381,7 @@ export default function Home() {
                     </p>
 
                     <div className="flex flex-wrap gap-4 justify-center">
-                        <button className="bg-white text-emerald-600 px-8 py-4 rounded-full font-bold text-lg hover:shadow-2xl transition-all flex items-center gap-2 group">
-                            Schedule Site Visit
-                            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                        </button>
+
                         <button className="bg-emerald-900/50 backdrop-blur-sm border-2 border-white/30 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-emerald-900/70 transition-all">
                             Talk to Advisor
                         </button>
