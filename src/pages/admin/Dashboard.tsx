@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Loader2, Plus, Edit, Trash2, LogOut, FileImage, Users } from 'lucide-react';
+import { Loader2, Plus, Edit, Trash2, LogOut, FileImage, Users, Eye } from 'lucide-react';
+import { useEdit } from '../../context/EditContext';
 import { Link, useNavigate } from 'react-router-dom';
 
 interface Property {
@@ -17,6 +18,7 @@ export default function Dashboard() {
     const [properties, setProperties] = useState<Property[]>([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const { setEditMode } = useEdit();
 
     useEffect(() => {
         const fetchProperties = async () => {
@@ -81,13 +83,25 @@ export default function Dashboard() {
             <header className="bg-white shadow">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
                     <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
-                    <button
-                        onClick={handleLogout}
-                        className="flex items-center text-gray-600 hover:text-red-600 transition-colors"
-                    >
-                        <LogOut className="w-5 h-5 mr-2" />
-                        Logout
-                    </button>
+                    <div className="flex items-center gap-6">
+                        <button
+                            onClick={() => {
+                                setEditMode(true);
+                                navigate('/');
+                            }}
+                            className="flex items-center text-emerald-600 hover:text-emerald-700 font-bold text-sm transition-colors"
+                        >
+                            <Eye className="w-5 h-5 mr-2" />
+                            Edit Site Visuals
+                        </button>
+                        <button
+                            onClick={handleLogout}
+                            className="flex items-center text-gray-600 hover:text-red-600 transition-colors"
+                        >
+                            <LogOut className="w-5 h-5 mr-2" />
+                            Logout
+                        </button>
+                    </div>
                 </div>
             </header>
 

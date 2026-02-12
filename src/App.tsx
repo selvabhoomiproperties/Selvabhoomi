@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import SiteSettings from './pages/admin/SiteSettings';
+import { EditProvider } from './context/EditContext';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -13,6 +15,11 @@ import Leads from './pages/admin/Leads';
 import { useEffect, useState } from 'react';
 import { supabase } from './lib/supabase';
 import { Loader2 } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
+import CustomCursor from './components/ui/CustomCursor';
+import CosmicBackground from './components/ui/CosmicBackground';
+import EditorToolbar from './components/ui/EditorToolbar';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<any>(null);
@@ -35,8 +42,8 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-emerald-600" />
+      <div className="min-h-screen flex items-center justify-center bg-[#030712]">
+        <Loader2 className="w-8 h-8 animate-spin text-emerald-500" />
       </div>
     );
   }
@@ -48,56 +55,75 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+function AnimatedRoutes() {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/properties" element={<Properties />} />
+        <Route path="/properties/:id" element={<PropertyDetails />} />
+
+        {/* Admin Routes */}
+        <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+        <Route path="/admin/login" element={<Login />} />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/property/new"
+          element={
+            <ProtectedRoute>
+              <PropertyForm />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/property/edit/:id"
+          element={
+            <ProtectedRoute>
+              <PropertyForm />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/leads"
+          element={
+            <ProtectedRoute>
+              <Leads />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/admin/sitesettings" element={<SiteSettings />} />
+      </Routes>
+    </AnimatePresence>
+  );
+}
+
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-white flex flex-col font-sans">
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/properties" element={<Properties />} />
-          <Route path="/properties/:id" element={<PropertyDetails />} />
-
-          {/* Admin Routes */}
-          <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
-          <Route path="/admin/login" element={<Login />} />
-          <Route
-            path="/admin/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/property/new"
-            element={
-              <ProtectedRoute>
-                <PropertyForm />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/property/edit/:id"
-            element={
-              <ProtectedRoute>
-                <PropertyForm />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/leads"
-            element={
-              <ProtectedRoute>
-                <Leads />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-        <Footer />
-      </div>
+      <EditProvider>
+        <div className="min-h-screen text-gray-200 flex flex-col font-sans cursor-none selection:bg-emerald-500/30 selection:text-emerald-300 bg-[#030712]">
+          <CosmicBackground />
+          <CustomCursor />
+          <Navbar />
+          <EditorToolbar />
+          {/* Added overflow-x-hidden and w-full to prevent any layout shifts */}
+          <main className="flex-grow w-full overflow-x-hidden">
+            <AnimatedRoutes />
+          </main>
+          <Footer />
+        </div>
+      </EditProvider>
     </Router>
   );
 }
