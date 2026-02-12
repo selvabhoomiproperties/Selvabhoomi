@@ -1,6 +1,6 @@
 import { Shield, Target, Users, History, Globe, Zap, Database, Layers, Cpu } from 'lucide-react';
 import RevealOnScroll from '../components/ui/reveal-on-scroll';
-import { EditableText } from '../components/ui/EditableContent';
+import { EditableText, EditableImage } from '../components/ui/EditableContent';
 
 export default function About() {
     return (
@@ -12,11 +12,9 @@ export default function About() {
             <section className="relative py-24 mb-32">
                 <div className="max-w-7xl mx-auto text-center relative z-10">
                     <RevealOnScroll>
-                        <div className="inline-flex items-center gap-3 bg-white/5 backdrop-blur-xl px-5 py-2 rounded-full border border-white/10 mb-12 font-mono text-[9px] tracking-[0.4em] text-emerald-400 uppercase shadow-2xl">
-                            ORIGIN NODE 01 // ARCHITECTURE
-                        </div>
+                        <EditableText id="about_hero_tag" content="ORIGIN NODE 01 // ARCHITECTURE" as="div" className="inline-flex items-center gap-3 bg-white/5 backdrop-blur-xl px-5 py-2 rounded-full border border-white/10 mb-12 font-mono text-[9px] tracking-[0.4em] text-emerald-400 uppercase shadow-2xl" />
                         <h1 className="text-6xl md:text-8xl lg:text-9xl font-black mb-12 tracking-tighter uppercase italic text-white leading-[0.9]">
-                            Architects of <br />
+                            <EditableText id="about_hero_title_prefix" content="Architects of" as="span" /> <br />
                             <EditableText
                                 id="about_hero_subtitle"
                                 content="Future Homes"
@@ -45,7 +43,8 @@ export default function About() {
                                     <Target className="w-12 h-12 text-emerald-400" />
                                 </div>
                                 <h2 className="text-[10px] font-black text-emerald-500 mb-8 uppercase tracking-[0.6em] flex items-center gap-4 italic">
-                                    <span className="w-8 h-px bg-emerald-500/40"></span> Vision
+                                    <span className="w-8 h-px bg-emerald-500/40"></span>
+                                    <EditableText id="about_vision_label" content="Vision" as="span" />
                                 </h2>
                                 <EditableText
                                     id="about_vision"
@@ -63,7 +62,8 @@ export default function About() {
                                     <Shield className="w-12 h-12 text-emerald-400" />
                                 </div>
                                 <h2 className="text-[10px] font-black text-emerald-500 mb-8 uppercase tracking-[0.6em] flex items-center gap-4 italic">
-                                    <span className="w-8 h-px bg-emerald-500/40"></span> Mission
+                                    <span className="w-8 h-px bg-emerald-500/40"></span>
+                                    <EditableText id="about_mission_label" content="Mission" as="span" />
                                 </h2>
                                 <EditableText
                                     id="about_mission"
@@ -85,7 +85,8 @@ export default function About() {
                     <div className="grid lg:grid-cols-2 gap-32 items-center">
                         <RevealOnScroll>
                             <h2 className="text-[10px] font-black text-emerald-500 mb-8 uppercase tracking-[0.6em] flex items-center gap-4 italic px-4 py-2 border border-emerald-500/20 rounded-xl w-fit">
-                                <Cpu className="w-4 h-4" /> Technical Protocol
+                                <Cpu className="w-4 h-4" />
+                                <EditableText id="about_infra_proto_tag" content="Technical Protocol" as="span" />
                             </h2>
                             <h3 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-10 uppercase italic leading-[1] tracking-tighter">
                                 Our <EditableText id="about_infra_title_accent" content="Framework" as="span" className="bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent italic" />
@@ -97,18 +98,16 @@ export default function About() {
                                 className="text-lg lg:text-xl text-gray-500 font-light italic leading-relaxed mb-12"
                             />
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                                {[
-                                    { icon: Database, title: 'IRONCLAD RECORDS', desc: 'Secure, digital records of all land titles and government clearances.' },
-                                    { icon: Layers, title: 'TRIPLE VERIFIED', desc: 'Three-tier legal verification from local, state, and private legal experts.' }
-                                ].map((box, i) => (
-                                    <div key={i} className="p-8 bg-white/5 rounded-3xl border border-white/5 hover:border-emerald-500/20 transition-all duration-700 group">
-                                        <box.icon className="w-8 lg:w-10 h-8 lg:h-10 text-emerald-400 mb-6 group-hover:scale-110 transition-transform duration-500" />
-                                        <div className="text-[10px] lg:text-xs font-black text-white mb-4 tracking-[0.3em] uppercase">{box.title}</div>
-                                        <div className="text-xs lg:text-sm text-gray-500 font-light italic">"{box.desc}"</div>
-                                    </div>
-                                ))}
-                            </div>
+                            {[
+                                { icon: Database, title: 'IRONCLAD RECORDS', desc: 'Secure, digital records of all land titles and government clearances.', id: 'records' },
+                                { icon: Layers, title: 'TRIPLE VERIFIED', desc: 'Three-tier legal verification from local, state, and private legal experts.', id: 'verified' }
+                            ].map((box, i) => (
+                                <div key={i} className="p-8 bg-white/5 rounded-3xl border border-white/5 hover:border-emerald-500/20 transition-all duration-700 group">
+                                    <box.icon className="w-8 lg:w-10 h-8 lg:h-10 text-emerald-400 mb-6 group-hover:scale-110 transition-transform duration-500" />
+                                    <EditableText id={`about_infra_box_${box.id}_title`} content={box.title} as="div" className="text-[10px] lg:text-xs font-black text-white mb-4 tracking-[0.3em] uppercase" />
+                                    <EditableText id={`about_infra_box_${box.id}_desc`} content={`"${box.desc}"`} as="div" className="text-xs lg:text-sm text-gray-500 font-light italic" />
+                                </div>
+                            ))}
                         </RevealOnScroll>
 
                         <RevealOnScroll delay={0.3}>
@@ -124,8 +123,8 @@ export default function About() {
                                     <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#030712] to-transparent"></div>
 
                                     <div className="absolute top-10 left-10 p-4 bg-black/40 backdrop-blur-md rounded-2xl border border-white/10">
-                                        <div className="text-[8px] font-black text-emerald-500/60 mb-1 tracking-[0.2em] uppercase">Sector Node</div>
-                                        <div className="text-white font-mono text-xs leading-none">PRNDR-ALPHA-9</div>
+                                        <EditableText id="about_blueprint_label" content="Sector Node" as="div" className="text-[8px] font-black text-emerald-500/60 mb-1 tracking-[0.2em] uppercase" />
+                                        <EditableText id="about_blueprint_val" content="PRNDR-ALPHA-9" as="div" className="text-white font-mono text-xs leading-none" />
                                     </div>
                                 </div>
                             </div>
@@ -140,7 +139,8 @@ export default function About() {
                     <div className="grid lg:grid-cols-2 gap-32 items-center">
                         <RevealOnScroll>
                             <h2 className="text-[10px] font-black text-emerald-500 mb-8 uppercase tracking-[0.6em] flex items-center gap-4 italic px-4 py-2 border border-emerald-500/20 rounded-xl w-fit">
-                                <History className="w-4 h-4" /> Chronology
+                                <History className="w-4 h-4" />
+                                <EditableText id="about_legacy_proto_tag" content="Chronology" as="span" />
                             </h2>
                             <h3 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-10 uppercase italic leading-[1] tracking-tighter">
                                 Our <EditableText id="about_timeline_title_accent" content="Legacy" as="span" className="bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent italic" />
@@ -182,8 +182,9 @@ export default function About() {
                             <div className="relative group">
                                 <div className="absolute -inset-10 bg-emerald-500/[0.03] rounded-[5rem] blur-3xl group-hover:bg-emerald-500/[0.05] transition-all duration-1000"></div>
                                 <div className="relative overflow-hidden rounded-[5rem] border border-white/10 shadow-2xl bg-gray-950 group-hover:border-emerald-500/20 transition-all duration-1000">
-                                    <img
-                                        src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1200&auto=format&fit=crop"
+                                    <EditableImage
+                                        id="about_team_image"
+                                        src="https://images.unsplash.com/photo-1552664730-d307ca884978"
                                         alt="Team"
                                         className="w-full h-[650px] object-cover mix-blend-lighten opacity-50 group-hover:opacity-80 group-hover:scale-105 transition-all duration-1000"
                                     />
@@ -193,8 +194,8 @@ export default function About() {
                                                 <History className="w-10 h-10 text-emerald-400" />
                                             </div>
                                             <div className="text-left">
-                                                <div className="text-4xl md:text-5xl font-black text-white italic tracking-tighter uppercase leading-none mb-3">10Y+ ELITE STATUS</div>
-                                                <div className="text-[10px] text-emerald-500 font-black uppercase tracking-[0.6em] italic">Chronological Dominance Verified</div>
+                                                <EditableText id="about_elite_status_title" content="10Y+ ELITE STATUS" as="div" className="text-4xl md:text-5xl font-black text-white italic tracking-tighter uppercase leading-none mb-3" />
+                                                <EditableText id="about_elite_status_tag" content="Chronological Dominance Verified" as="div" className="text-[10px] text-emerald-500 font-black uppercase tracking-[0.6em] italic" />
                                             </div>
                                         </div>
                                     </div>
@@ -210,10 +211,11 @@ export default function About() {
                 <div className="max-w-7xl mx-auto text-center mb-24">
                     <RevealOnScroll>
                         <h2 className="text-[10px] font-black text-emerald-500 mb-8 uppercase tracking-[0.6em] justify-center flex items-center gap-4 italic">
-                            <Globe className="w-4 h-4" /> Global Grid
+                            <Globe className="w-4 h-4" />
+                            <EditableText id="about_network_grid_tag" content="Global Grid" as="span" />
                         </h2>
                         <h3 className="text-5xl md:text-7xl font-black text-white mb-8 uppercase italic leading-none tracking-tighter">
-                            Regional <EditableText id="about_network_title_accent" content="Network" as="span" className="bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent italic" />
+                            <EditableText id="about_network_prefix" content="Regional" as="span" /> <EditableText id="about_network_title_accent" content="Network" as="span" className="bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent italic" />
                         </h3>
                     </RevealOnScroll>
 
@@ -226,15 +228,15 @@ export default function About() {
                         ].map((net, i) => (
                             <RevealOnScroll key={i} delay={i * 0.1}>
                                 <div className="bg-white/5 p-8 lg:p-10 rounded-[2.5rem] border border-white/5 hover:border-emerald-500/40 transition-all duration-700 group text-left">
-                                    <div className="text-3xl font-black text-white mb-2 italic tracking-tighter group-hover:text-emerald-400 transition-colors">{net.area}</div>
+                                    <EditableText id={`about_network_area_${i}_title`} content={net.area} as="div" className="text-3xl font-black text-white mb-2 italic tracking-tighter group-hover:text-emerald-400 transition-colors" />
                                     <div className="flex justify-between items-end mt-8 pt-6 border-t border-white/5">
                                         <div>
-                                            <div className="text-[8px] font-black text-gray-500 tracking-[0.2em] uppercase mb-1">Asset Nodes</div>
-                                            <div className="text-xl font-mono text-white leading-none">{net.nodes}</div>
+                                            <EditableText id={`about_network_area_${i}_nodes_label`} content="Asset Nodes" as="div" className="text-[8px] font-black text-gray-500 tracking-[0.2em] uppercase mb-1" />
+                                            <EditableText id={`about_network_area_${i}_nodes_val`} content={net.nodes} as="div" className="text-xl font-mono text-white leading-none" />
                                         </div>
                                         <div className="text-right">
-                                            <div className="text-[8px] font-black text-gray-500 tracking-[0.2em] uppercase mb-1">Uplink Status</div>
-                                            <div className="text-[10px] font-black text-emerald-400 tracking-widest">{net.status}</div>
+                                            <EditableText id={`about_network_area_${i}_status_label`} content="Uplink Status" as="div" className="text-[8px] font-black text-gray-500 tracking-[0.2em] uppercase mb-1" />
+                                            <EditableText id={`about_network_area_${i}_status_val`} content={net.status} as="div" className="text-[10px] font-black text-emerald-400 tracking-widest" />
                                         </div>
                                     </div>
                                 </div>
@@ -247,7 +249,9 @@ export default function About() {
             {/* Final Values Grid */}
             <section className="py-20 mb-32 max-w-7xl mx-auto text-center" >
                 <RevealOnScroll>
-                    <h2 className="text-5xl md:text-7xl font-black text-white mb-32 uppercase italic tracking-tighter leading-none">Integrity <EditableText id="about_integrity_title_accent" content="Matrix" as="span" className="text-emerald-500 drop-shadow-[0_0_20px_rgba(16,185,129,0.3)]" /></h2>
+                    <h2 className="text-5xl md:text-7xl font-black text-white mb-32 uppercase italic tracking-tighter leading-none">
+                        <EditableText id="about_integrity_prefix" content="Integrity" as="span" /> <EditableText id="about_integrity_title_accent" content="Matrix" as="span" className="text-emerald-500 drop-shadow-[0_0_20px_rgba(16,185,129,0.3)]" />
+                    </h2>
                 </RevealOnScroll>
 
                 <div className="grid md:grid-cols-3 gap-16">

@@ -60,7 +60,12 @@ export default function Home() {
                             </motion.div>
 
                             <h1 className="text-4xl md:text-6xl lg:text-7xl font-black leading-[1] mb-6 tracking-tighter text-white uppercase italic">
-                                <span className="block italic font-light text-lg md:text-xl mb-3 text-emerald-500/60 tracking-[0.2em] uppercase">Future First</span>
+                                <EditableText
+                                    id="hero_prefix_tag"
+                                    content="Future First"
+                                    as="span"
+                                    className="block italic font-light text-lg md:text-xl mb-3 text-emerald-500/60 tracking-[0.2em] uppercase"
+                                />
                                 <EditableText
                                     id="hero_title"
                                     content={settings.hero_title || 'SECURE THE'}
@@ -89,7 +94,7 @@ export default function Home() {
                                         whileTap={{ scale: 0.95 }}
                                         className="bg-emerald-500 text-black px-8 py-4 rounded-xl font-black text-[9px] uppercase tracking-widest transition-all shadow-2xl flex items-center gap-2.5"
                                     >
-                                        Initiate Search
+                                        <EditableText id="hero_btn_search" content="Initiate Search" as="span" />
                                         <Compass className="w-4 h-4 animate-spin-slow" />
                                     </motion.button>
                                 </Link>
@@ -97,21 +102,26 @@ export default function Home() {
                                     whileHover={{ backgroundColor: "rgba(255,255,255,0.08)" }}
                                     className="px-8 py-4 rounded-xl font-black text-[9px] uppercase tracking-widest text-white border border-white/10 backdrop-blur-sm transition-all flex items-center gap-2.5"
                                 >
-                                    Transmission
+                                    <EditableText id="hero_btn_trans" content="Transmission" as="span" />
                                     <Zap className="w-4 h-4 text-emerald-400" />
                                 </motion.button>
                             </div>
 
                             <div className="flex gap-10 border-l-2 border-emerald-500/20 pl-6">
                                 {[
-                                    { label: 'AUTHENTICITY', val: '100%' },
-                                    { label: 'APPROVALS', val: 'DTCP' },
-                                    { label: 'HORIZON', val: '7Y+' },
+                                    { label: 'AUTHENTICITY', val: '100%', id: 'auth' },
+                                    { label: 'APPROVALS', val: 'DTCP', id: 'appr' },
+                                    { label: 'HORIZON', val: '7Y+', id: 'horz' },
                                 ].map((stat) => (
                                     <div key={stat.label}>
-                                        <div className="text-2xl font-black text-white mb-0.5 leading-none italic">{stat.val}</div>
                                         <EditableText
-                                            id={`stat_label_${stat.label.toLowerCase()}`}
+                                            id={`stat_val_${stat.id}`}
+                                            content={stat.val}
+                                            as="div"
+                                            className="text-2xl font-black text-white mb-0.5 leading-none italic"
+                                        />
+                                        <EditableText
+                                            id={`stat_label_${stat.id}`}
                                             content={stat.label}
                                             as="div"
                                             className="text-[8px] font-black text-gray-600 tracking-[0.2em] uppercase"
@@ -142,13 +152,13 @@ export default function Home() {
 
                                     <div className="absolute top-6 left-6 p-4 bg-black/40 backdrop-blur-md rounded-xl border border-white/10">
                                         <Globe className="w-4 h-4 text-emerald-400 mb-3 animate-pulse" />
-                                        <div className="text-[8px] font-black text-emerald-500/60 mb-0.5 tracking-[0.2em] uppercase">Coordinates</div>
-                                        <div className="text-white font-mono text-[10px] leading-none tracking-tighter">12.9716° N, 77.5946° E</div>
+                                        <EditableText id="hero_coord_label" content="Coordinates" as="div" className="text-[8px] font-black text-emerald-500/60 mb-0.5 tracking-[0.2em] uppercase" />
+                                        <EditableText id="hero_coord_val" content="12.9716° N, 77.5946° E" as="div" className="text-white font-mono text-[10px] leading-none tracking-tighter" />
                                     </div>
 
                                     <div className="absolute bottom-6 right-6 p-4 bg-emerald-500/10 backdrop-blur-xl rounded-xl border border-emerald-500/30 text-right">
-                                        <div className="text-[8px] font-black text-emerald-400 mb-0.5 tracking-[0.2em] uppercase">Status</div>
-                                        <div className="text-white font-black text-base leading-none italic uppercase">Verified Asset</div>
+                                        <EditableText id="hero_status_label" content="Status" as="div" className="text-[8px] font-black text-emerald-400 mb-0.5 tracking-[0.2em] uppercase" />
+                                        <EditableText id="hero_status_val" content="Verified Asset" as="div" className="text-white font-black text-base leading-none italic uppercase" />
                                     </div>
                                 </motion.div>
 
@@ -221,9 +231,12 @@ export default function Home() {
                                         </div>
 
                                         {card.label && (
-                                            <div className="inline-block bg-emerald-500 text-black text-[10px] font-black px-4 py-1.5 rounded-lg mb-8 tracking-[0.3em] shadow-2xl">
-                                                {card.label}
-                                            </div>
+                                            <EditableText
+                                                id={`home_offer_${i}_label`}
+                                                content={card.label}
+                                                as="div"
+                                                className="inline-block bg-emerald-500 text-black text-[10px] font-black px-4 py-1.5 rounded-lg mb-8 tracking-[0.3em] shadow-2xl"
+                                            />
                                         )}
 
                                         <EditableText
@@ -243,14 +256,19 @@ export default function Home() {
                                             {card.points.map((pt, j) => (
                                                 <div key={j} className="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/5 group-hover:border-emerald-500/10 transition-colors">
                                                     <div className="w-2 h-2 rounded-full bg-emerald-500/50 group-hover:bg-emerald-500 group-hover:scale-125 transition-all duration-500"></div>
-                                                    <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest group-hover:text-gray-300 transition-colors">{pt}</span>
+                                                    <EditableText
+                                                        id={`home_offer_${i}_pt_${j}`}
+                                                        content={pt}
+                                                        as="span"
+                                                        className="text-[10px] font-black text-gray-500 uppercase tracking-widest group-hover:text-gray-300 transition-colors"
+                                                    />
                                                 </div>
                                             ))}
                                         </div>
                                     </div>
 
                                     <button className="relative z-10 w-full py-6 rounded-2xl font-black text-xs uppercase tracking-[0.4em] border border-white/10 hover:bg-emerald-500 hover:text-black hover:border-emerald-500 transition-all duration-700 shadow-2xl">
-                                        Access Database
+                                        <EditableText id={`home_offer_${i}_btn`} content="Access Database" as="span" />
                                     </button>
                                 </div>
                             </RevealOnScroll>
@@ -280,9 +298,9 @@ export default function Home() {
                                     <div className="absolute bottom-10 left-10 right-10 p-6 lg:p-8 bg-black/60 backdrop-blur-2xl rounded-3xl border border-white/10">
                                         <div className="flex items-center gap-4 mb-4">
                                             <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                                            <span className="text-[9px] lg:text-[10px] font-black text-emerald-400 tracking-[0.4em] uppercase font-mono">Real-time Matrix Sync</span>
+                                            <EditableText id="home_infra_tag" content="Real-time Matrix Sync" as="span" className="text-[9px] lg:text-[10px] font-black text-emerald-400 tracking-[0.4em] uppercase font-mono" />
                                         </div>
-                                        <div className="text-white font-black text-xl lg:text-2xl italic uppercase tracking-widest leading-tight">Parandur Corridor // Phase 01</div>
+                                        <EditableText id="home_infra_label" content="Parandur Corridor // Phase 01" as="div" className="text-white font-black text-xl lg:text-2xl italic uppercase tracking-widest leading-tight" />
                                     </div>
                                 </div>
                             </div>
@@ -290,7 +308,8 @@ export default function Home() {
 
                         <RevealOnScroll delay={0.3}>
                             <h2 className="text-[10px] font-black text-emerald-500 mb-8 uppercase tracking-[0.6em] flex items-center gap-4 italic px-4 py-2 border border-emerald-500/20 rounded-xl w-fit">
-                                <Activity className="w-4 h-4" /> Market Insights
+                                <Activity className="w-4 h-4" />
+                                <EditableText id="home_infra_insights_tag" content="Market Insights" as="span" />
                             </h2>
                             <h3 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-10 uppercase italic leading-[1] tracking-tighter">
                                 The <EditableText id="home_infra_title_accent" content="Growth" as="span" className="bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent" /> Corridor
@@ -304,15 +323,15 @@ export default function Home() {
 
                             <div className="space-y-6 lg:space-y-8">
                                 {[
-                                    { title: '15-MIN TO AIRPORT', desc: 'Strategically located minutes away from the upcoming international terminal.' },
-                                    { title: 'EXPRESSWAY ACCESS', desc: 'Direct connectivity to major 6-lane highways and logistics hubs.' },
-                                    { title: 'SMART ESSENTIALS', desc: 'Gated communities with pre-installed utilities and organic farm setups.' }
+                                    { title: '15-MIN TO AIRPORT', desc: 'Strategically located minutes away from the upcoming international terminal.', id: 'airport' },
+                                    { title: 'EXPRESSWAY ACCESS', desc: 'Direct connectivity to major 6-lane highways and logistics hubs.', id: 'express' },
+                                    { title: 'SMART ESSENTIALS', desc: 'Gated communities with pre-installed utilities and organic farm setups.', id: 'essentials' }
                                 ].map((node, i) => (
                                     <div key={i} className="flex gap-6 lg:gap-8 group/node">
                                         <div className="w-px h-12 lg:h-16 bg-gradient-to-b from-emerald-500/40 to-transparent group-hover/node:from-emerald-500 transition-all duration-500"></div>
                                         <div>
-                                            <div className="text-[10px] lg:text-xs font-black text-white mb-2 tracking-[0.3em] uppercase">{node.title}</div>
-                                            <div className="text-xs lg:text-sm text-gray-500 font-light italic">"{node.desc}"</div>
+                                            <EditableText id={`home_infra_node_${node.id}_title`} content={node.title} as="div" className="text-[10px] lg:text-xs font-black text-white mb-2 tracking-[0.3em] uppercase" />
+                                            <EditableText id={`home_infra_node_${node.id}_desc`} content={`"${node.desc}"`} as="div" className="text-xs lg:text-sm text-gray-500 font-light italic" />
                                         </div>
                                     </div>
                                 ))}
@@ -369,14 +388,14 @@ export default function Home() {
                                         </h3>
                                         <div className="space-y-10">
                                             {[
-                                                { title: 'TITLE VERIFICATION', val: 'DONE' },
-                                                { title: 'FREE MAINTENANCE', val: 'YES' },
-                                                { title: 'FENCING & SECURITY', val: 'INCLUDED' },
-                                                { title: 'ORGANIC FARMING', val: 'READY' }
+                                                { title: 'TITLE VERIFICATION', val: 'DONE', id: 'title' },
+                                                { title: 'FREE MAINTENANCE', val: 'YES', id: 'maint' },
+                                                { title: 'FENCING & SECURITY', val: 'INCLUDED', id: 'fence' },
+                                                { title: 'ORGANIC FARMING', val: 'READY', id: 'farm' }
                                             ].map((risk, i) => (
                                                 <div key={i} className="flex items-center justify-between border-b border-white/10 pb-6 group/row hover:border-emerald-500/40 transition-all duration-500">
-                                                    <span className="text-xs font-black text-gray-500 tracking-[0.5em] group-hover/row:text-white transition-colors">{risk.title}</span>
-                                                    <span className="text-emerald-400 font-black text-sm italic shadow-emerald-500/50">{risk.val}</span>
+                                                    <EditableText id={`home_secure_item_${risk.id}_title`} content={risk.title} as="span" className="text-xs font-black text-gray-500 tracking-[0.5em] group-hover/row:text-white transition-colors" />
+                                                    <EditableText id={`home_secure_item_${risk.id}_val`} content={risk.val} as="span" className="text-emerald-400 font-black text-sm italic shadow-emerald-500/50" />
                                                 </div>
                                             ))}
                                         </div>
@@ -388,21 +407,21 @@ export default function Home() {
                                                 <Users className="w-10 h-10 text-emerald-400" />
                                             </div>
                                             <div>
-                                                <div className="text-3xl font-black text-white tracking-widest italic uppercase">Our Community</div>
-                                                <div className="text-[10px] font-black text-emerald-500/60 uppercase tracking-[0.4em] mt-2">1000+ Happy Families</div>
+                                                <EditableText id="home_comm_title" content="Our Community" as="div" className="text-3xl font-black text-white tracking-widest italic uppercase" />
+                                                <EditableText id="home_comm_stat" content="1000+ Happy Families" as="div" className="text-[10px] font-black text-emerald-500/60 uppercase tracking-[0.4em] mt-2" />
                                             </div>
                                         </div>
 
                                         <div className="space-y-10">
                                             {[
-                                                { title: 'CORPORATE LEADERS', color: 'from-emerald-500' },
-                                                { title: 'GLOBAL NRIS', color: 'from-teal-500' },
-                                                { title: 'LEGACY PLANNERS', color: 'from-cyan-500' }
+                                                { title: 'CORPORATE LEADERS', color: 'from-emerald-500', id: 'corp', desc: 'Validated architecture for generational preservation protocols.' },
+                                                { title: 'GLOBAL NRIS', color: 'from-teal-500', id: 'nri', desc: 'Validated architecture for generational preservation protocols.' },
+                                                { title: 'LEGACY PLANNERS', color: 'from-cyan-500', id: 'legacy', desc: 'Validated architecture for generational preservation protocols.' }
                                             ].map((item, i) => (
                                                 <div key={i} className="relative pl-12 group/item">
                                                     <div className={`absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b ${item.color} to-transparent rounded-full group-hover/item:h-full transition-all duration-700`}></div>
-                                                    <div className="font-black text-white text-xl tracking-widest uppercase italic mb-2">{item.title}</div>
-                                                    <div className="text-sm text-gray-500 font-light italic leading-relaxed">"Validated architecture for generational preservation protocols."</div>
+                                                    <EditableText id={`home_comm_item_${item.id}_title`} content={item.title} as="div" className="font-black text-white text-xl tracking-widest uppercase italic mb-2" />
+                                                    <EditableText id={`home_comm_item_${item.id}_desc`} content={`"${item.desc}"`} as="div" className="text-sm text-gray-500 font-light italic leading-relaxed" />
                                                 </div>
                                             ))}
                                         </div>
@@ -422,7 +441,7 @@ export default function Home() {
                             <MessageSquare className="w-4 h-4" /> Transmission Logs
                         </h2>
                         <h3 className="text-4xl md:text-5xl lg:text-7xl font-black text-white mb-8 uppercase italic leading-none tracking-tighter">
-                            Validated <span className="bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent italic">Outcomes</span>
+                            Validated <EditableText id="home_testimonial_accent" content="Outcomes" as="span" className="bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent italic" />
                         </h3>
                     </RevealOnScroll>
 
@@ -495,20 +514,20 @@ export default function Home() {
                                     whileTap={{ scale: 0.9 }}
                                     className="bg-white text-black px-16 py-8 rounded-3xl font-black text-sm uppercase tracking-[0.5em] transition-all shadow-2xl"
                                 >
-                                    Contact Expert
+                                    <EditableText id="home_cta_btn" content="Contact Expert" as="span" />
                                 </motion.button>
                             </Link>
                         </div>
 
                         <div className="grid md:grid-cols-3 gap-0 bg-white/5 rounded-[3rem] overflow-hidden border border-white/5 shadow-2xl">
                             {[
-                                { val: '1.2k+', label: 'HAPPY FAMILIES' },
-                                { val: '500A+', label: 'ACRES DELIVERED' },
-                                { val: '100%', label: 'SUCCESS RATE' }
+                                { val: '1.2k+', label: 'HAPPY FAMILIES', id: 'fam' },
+                                { val: '500A+', label: 'ACRES DELIVERED', id: 'acr' },
+                                { val: '100%', label: 'SUCCESS RATE', id: 'succ' }
                             ].map((stat, i) => (
                                 <div key={i} className="bg-black/60 backdrop-blur-3xl p-16 hover:bg-emerald-500/5 transition-all duration-700 border-r border-white/5 last:border-0">
-                                    <div className="text-5xl font-black mb-3 text-white italic tracking-tighter">{stat.val}</div>
-                                    <div className="text-[10px] font-black text-gray-700 tracking-[0.5em] uppercase">{stat.label}</div>
+                                    <EditableText id={`home_stat_val_${stat.id}`} content={stat.val} as="div" className="text-5xl font-black mb-3 text-white italic tracking-tighter" />
+                                    <EditableText id={`home_stat_label_${stat.id}`} content={stat.label} as="div" className="text-[10px] font-black text-gray-700 tracking-[0.5em] uppercase" />
                                 </div>
                             ))}
                         </div>

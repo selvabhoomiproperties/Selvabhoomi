@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import RevealOnScroll from '../components/ui/reveal-on-scroll';
 import { motion } from 'framer-motion';
+import { EditableText } from '../components/ui/EditableContent';
 
 interface Property {
     id: number;
@@ -58,14 +59,17 @@ export default function Properties() {
                 <RevealOnScroll className="text-center mb-32">
                     <div className="inline-flex items-center gap-3 bg-emerald-500/10 px-6 py-2.5 rounded-full border border-emerald-500/20 mb-8 font-mono text-[10px] tracking-[0.4em] text-emerald-400">
                         <Globe className="w-4 h-4 animate-pulse" />
-                        SCANNING AVAILABLE ASSET NODES
+                        <EditableText id="properties_hero_tag" content="SCANNING AVAILABLE ASSET NODES" as="span" />
                     </div>
                     <h1 className="text-5xl md:text-8xl font-black text-white mb-8 tracking-tighter italic uppercase underline-offset-[20px] decoration-emerald-500/30">
-                        Global <span className="bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(16,185,129,0.4)]">Inventory</span>
+                        <EditableText id="properties_hero_prefix" content="Global" as="span" /> <EditableText id="properties_hero_title_accent" content="Inventory" as="span" className="bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(16,185,129,0.4)]" />
                     </h1>
-                    <p className="text-xl text-gray-400 max-w-2xl mx-auto font-light leading-relaxed italic opacity-80">
-                        "Secure entry into high-growth developmental corridors. Every inventory node valuated for maximum legacy preservation protocols."
-                    </p>
+                    <EditableText
+                        id="properties_hero_desc"
+                        content='"Secure entry into high-growth developmental corridors. Every inventory node valuated for maximum legacy preservation protocols."'
+                        as="p"
+                        className="text-xl text-gray-400 max-w-2xl mx-auto font-light leading-relaxed italic opacity-80"
+                    />
                 </RevealOnScroll>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12">
@@ -110,22 +114,18 @@ export default function Properties() {
 
                                     <div className="mt-auto grid grid-cols-2 gap-6 pt-8 border-t border-white/5">
                                         <div>
-                                            <div className="text-[8px] text-emerald-500/40 mb-2 flex items-center gap-1.5 uppercase tracking-widest font-black">
-                                                VALUATION
-                                            </div>
+                                            <EditableText id="prop_valuation_label" content="VALUATION" as="div" className="text-[8px] text-emerald-500/40 mb-2 flex items-center gap-1.5 uppercase tracking-widest font-black" />
                                             <div className="font-black text-white text-2xl tracking-tighter italic">{property.price}</div>
                                         </div>
                                         <div className="text-right">
-                                            <div className="text-[8px] text-gray-700 mb-2 flex items-center justify-end gap-1.5 uppercase tracking-widest font-black">
-                                                DOMAIN
-                                            </div>
+                                            <EditableText id="prop_domain_label" content="DOMAIN" as="div" className="text-[8px] text-gray-700 mb-2 flex items-center justify-end gap-1.5 uppercase tracking-widest font-black" />
                                             <div className="font-black text-white text-2xl tracking-tighter italic">{property.size}</div>
                                         </div>
                                     </div>
 
                                     <Link to={`/properties/${property.id}`} className="block w-full mt-10">
                                         <button className="w-full bg-white/5 text-white font-black py-5 rounded-xl border border-white/10 hover:bg-emerald-500 hover:text-black hover:border-emerald-500 transition-all duration-500 uppercase tracking-[0.3em] text-[10px] flex items-center justify-center gap-3">
-                                            Access Node
+                                            <EditableText id="prop_access_btn" content="Access Node" as="span" />
                                             <Compass className="w-4 h-4" />
                                         </button>
                                     </Link>

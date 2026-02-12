@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { supabase } from '../lib/supabase';
 import RevealOnScroll from '../components/ui/reveal-on-scroll';
 import { motion, AnimatePresence } from 'framer-motion';
-import { EditableText } from '../components/ui/EditableContent';
+import { EditableText, EditableImage } from '../components/ui/EditableContent';
 
 export default function Contact() {
     const [loading, setLoading] = useState(false);
@@ -56,11 +56,9 @@ export default function Contact() {
             <section className="py-24 mb-20 relative overflow-hidden">
                 <div className="max-w-7xl mx-auto text-center relative z-10 transition-all">
                     <RevealOnScroll>
-                        <div className="inline-flex items-center gap-3 bg-white/5 backdrop-blur-xl px-5 py-2 rounded-full border border-white/10 mb-12 font-mono text-[9px] tracking-[0.4em] text-emerald-400 uppercase shadow-2xl">
-                            CONNECT WITH US // QUICK LINK
-                        </div>
+                        <EditableText id="contact_hero_tag" content="CONNECT WITH US // QUICK LINK" as="div" className="inline-flex items-center gap-3 bg-white/5 backdrop-blur-xl px-5 py-2 rounded-full border border-white/10 mb-12 font-mono text-[9px] tracking-[0.4em] text-emerald-400 uppercase shadow-2xl" />
                         <h1 className="text-6xl md:text-8xl lg:text-9xl font-black mb-12 tracking-tighter uppercase italic text-white leading-[0.9]">
-                            Get in <br />
+                            <EditableText id="contact_hero_prefix" content="Get in" as="span" /> <br />
                             <EditableText
                                 id="contact_hero_subtitle"
                                 content="Touch"
@@ -87,7 +85,8 @@ export default function Contact() {
                         <RevealOnScroll className="h-full flex flex-col justify-center">
                             <div className="mb-16">
                                 <h2 className="text-[10px] font-black text-emerald-500 mb-16 uppercase tracking-[0.6em] flex items-center gap-6 italic">
-                                    <span className="w-12 h-px bg-emerald-500/40"></span> Contact Information
+                                    <span className="w-12 h-px bg-emerald-500/40"></span>
+                                    <EditableText id="contact_info_label" content="Contact Information" as="span" />
                                 </h2>
                                 <div className="space-y-12">
                                     {[
@@ -101,7 +100,7 @@ export default function Contact() {
                                                 <div className="bg-emerald-500/10 p-4 rounded-2xl border border-emerald-500/20 group-hover:bg-emerald-500/20 group-hover:scale-110 transition-all duration-500 shadow-xl">
                                                     <item.icon className="w-6 h-6 text-emerald-400" />
                                                 </div>
-                                                <span className="text-[10px] font-black text-emerald-500/60 uppercase tracking-[0.4em] italic">{item.title}</span>
+                                                <EditableText id={`contact_info_item_${i}_title`} content={item.title} as="span" className="text-[10px] font-black text-emerald-500/60 uppercase tracking-[0.4em] italic" />
                                             </div>
                                             <div className="pl-2">
                                                 <EditableText
@@ -131,7 +130,10 @@ export default function Contact() {
                                 <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_100%_0%,_#10b98110_0%,_transparent_50%)]"></div>
 
                                 <div className="relative z-10 mb-16">
-                                    <h2 className="text-5xl md:text-6xl font-black text-white mb-6 italic uppercase tracking-tighter leading-none">Send <br /><EditableText id="contact_form_title_accent" content="Message" as="span" className="text-emerald-500 drop-shadow-[0_0_20px_rgba(16,185,129,0.3)]" /></h2>
+                                    <h2 className="text-5xl md:text-6xl font-black text-white mb-6 italic uppercase tracking-tighter leading-none">
+                                        <EditableText id="contact_form_prefix" content="Send" as="span" /> <br />
+                                        <EditableText id="contact_form_title_accent" content="Message" as="span" className="text-emerald-500 drop-shadow-[0_0_20px_rgba(16,185,129,0.3)]" />
+                                    </h2>
                                     <EditableText
                                         id="contact_form_desc"
                                         content='"Tell us about your requirements, and our team will get back to you shortly."'
@@ -147,16 +149,16 @@ export default function Contact() {
                                             animate={{ opacity: 1, scale: 1, y: 0 }}
                                             className="bg-emerald-500/[0.03] text-emerald-400 p-20 rounded-[4rem] text-center border border-emerald-500/20 flex flex-col items-center justify-center h-full shadow-2xl"
                                         >
-                                            <div className="w-32 h-32 bg-emerald-500/20 rounded-full flex items-center justify-center mb-12 border border-emerald-500/40 shadow-[0_0_50px_rgba(16,185,129,0.4)] animate-pulse">
+                                            <p className="w-32 h-32 bg-emerald-500/20 rounded-full flex items-center justify-center mb-12 border border-emerald-500/40 shadow-[0_0_50px_rgba(16,185,129,0.4)] animate-pulse">
                                                 <ShieldCheck className="w-16 h-16 text-emerald-400" />
-                                            </div>
-                                            <p className="font-black text-4xl mb-6 italic uppercase tracking-tighter leading-none text-white">MESSAGE SENT</p>
-                                            <p className="text-emerald-400/60 mb-16 font-light italic text-xl">"Thank you for reaching out. An expert advisor will contact you soon."</p>
+                                            </p>
+                                            <EditableText id="contact_success_title" content="MESSAGE SENT" as="p" className="font-black text-4xl mb-6 italic uppercase tracking-tighter leading-none text-white outline-none" />
+                                            <EditableText id="contact_success_desc" content='"Thank you for reaching out. An expert advisor will contact you soon."' as="p" className="text-emerald-400/60 mb-16 font-light italic text-xl outline-none" />
                                             <button
                                                 onClick={() => setSuccess(false)}
                                                 className="text-[10px] font-black uppercase tracking-[0.5em] underline underline-offset-[12px] hover:text-white transition-all duration-500 text-emerald-500/40"
                                             >
-                                                SEND ANOTHER MESSAGE
+                                                <EditableText id="contact_success_reset" content="SEND ANOTHER MESSAGE" as="span" />
                                             </button>
                                         </motion.div>
                                     ) : (
@@ -169,7 +171,7 @@ export default function Contact() {
                                         >
                                             <div className="grid md:grid-cols-2 gap-10">
                                                 <div className="space-y-4">
-                                                    <label className="text-[10px] font-black text-emerald-500/40 uppercase tracking-[0.4em] ml-4">First Name</label>
+                                                    <EditableText id="contact_form_label_fname" content="First Name" as="label" className="text-[10px] font-black text-emerald-500/40 uppercase tracking-[0.4em] ml-4" />
                                                     <input
                                                         type="text"
                                                         name="first_name"
@@ -181,7 +183,7 @@ export default function Contact() {
                                                     />
                                                 </div>
                                                 <div className="space-y-4">
-                                                    <label className="text-[10px] font-black text-emerald-500/40 uppercase tracking-[0.4em] ml-4">Last Name</label>
+                                                    <EditableText id="contact_form_label_lname" content="Last Name" as="label" className="text-[10px] font-black text-emerald-500/40 uppercase tracking-[0.4em] ml-4" />
                                                     <input
                                                         type="text"
                                                         name="last_name"
@@ -194,7 +196,7 @@ export default function Contact() {
                                             </div>
 
                                             <div className="space-y-4">
-                                                <label className="text-[10px] font-black text-emerald-500/40 uppercase tracking-[0.4em] ml-4">Email Address</label>
+                                                <EditableText id="contact_form_label_email" content="Email Address" as="label" className="text-[10px] font-black text-emerald-500/40 uppercase tracking-[0.4em] ml-4" />
                                                 <input
                                                     type="email"
                                                     name="email"
@@ -207,7 +209,7 @@ export default function Contact() {
                                             </div>
 
                                             <div className="space-y-4">
-                                                <label className="text-[10px] font-black text-emerald-500/40 uppercase tracking-[0.4em] ml-4">Phone Number</label>
+                                                <EditableText id="contact_form_label_phone" content="Phone Number" as="label" className="text-[10px] font-black text-emerald-500/40 uppercase tracking-[0.4em] ml-4" />
                                                 <input
                                                     type="tel"
                                                     name="phone"
@@ -220,7 +222,7 @@ export default function Contact() {
                                             </div>
 
                                             <div className="space-y-4">
-                                                <label className="text-[10px] font-black text-emerald-500/40 uppercase tracking-[0.4em] ml-4">Your Message</label>
+                                                <EditableText id="contact_form_label_msg" content="Your Message" as="label" className="text-[10px] font-black text-emerald-500/40 uppercase tracking-[0.4em] ml-4" />
                                                 <textarea
                                                     rows={4}
                                                     name="message"
@@ -239,7 +241,7 @@ export default function Contact() {
                                                 disabled={loading}
                                                 className="w-full bg-emerald-500 text-black font-black py-8 rounded-3xl transition-all duration-700 flex items-center justify-center gap-4 disabled:opacity-50 uppercase tracking-[0.6em] text-xs shadow-2xl group/btn"
                                             >
-                                                {loading ? 'Sending...' : 'SEND MESSAGE'}
+                                                <EditableText id="contact_form_btn" content={loading ? 'Sending...' : 'SEND MESSAGE'} as="span" />
                                                 <Zap className="w-5 h-5 group-hover/btn:animate-pulse" />
                                             </motion.button>
                                         </motion.form>
@@ -256,10 +258,11 @@ export default function Contact() {
                     <div className="grid lg:grid-cols-2 gap-20 lg:gap-32 items-center">
                         <RevealOnScroll>
                             <h2 className="text-[10px] font-black text-emerald-500 mb-8 uppercase tracking-[0.6em] flex items-center gap-4 italic px-4 py-2 border border-emerald-500/20 rounded-xl w-fit">
-                                <Server className="w-4 h-4" /> Physical Infrastructure
+                                <Server className="w-4 h-4" />
+                                <EditableText id="contact_infra_proto_tag" content="Physical Infrastructure" as="span" />
                             </h2>
                             <h3 className="text-4xl md:text-6xl font-black text-white mb-10 uppercase italic leading-[1] tracking-tighter">
-                                Our <EditableText id="contact_office_title_accent" content="Office" as="span" className="bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent italic" />
+                                <EditableText id="contact_office_prefix" content="Our" as="span" /> <EditableText id="contact_office_title_accent" content="Office" as="span" className="bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent italic" />
                             </h3>
                             <EditableText
                                 id="contact_office_desc"
@@ -289,8 +292,8 @@ export default function Contact() {
                                             />
                                         </div>
                                         <div className="text-right">
-                                            <div className="text-[8px] font-black text-gray-700 tracking-[0.4em] uppercase mb-1">Status</div>
-                                            <div className="text-[10px] font-black text-emerald-400 tracking-widest animate-pulse">{hub.status}</div>
+                                            <EditableText id={`contact_hub_${i}_status_label`} content="Status" as="div" className="text-[8px] font-black text-gray-700 tracking-[0.4em] uppercase mb-1" />
+                                            <EditableText id={`contact_hub_${i}_status_val`} content={hub.status} as="div" className="text-[10px] font-black text-emerald-400 tracking-widest animate-pulse" />
                                         </div>
                                     </div>
                                 ))}
@@ -301,7 +304,8 @@ export default function Contact() {
                             <div className="relative group">
                                 <div className="absolute -inset-4 bg-emerald-500/10 blur-3xl rounded-[4rem] group-hover:bg-emerald-500/20 transition-all duration-1000"></div>
                                 <div className="relative rounded-[3.5rem] overflow-hidden border border-white/10 shadow-2xl">
-                                    <img
+                                    <EditableImage
+                                        id="contact_office_image"
                                         src="file:///Users/ashiq/.gemini/antigravity/brain/9a4b7b56-95e9-4998-9e99-98854a31cadd/contact_command_center_1770913834501.png"
                                         alt="Command Center"
                                         className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-1000"
@@ -319,10 +323,11 @@ export default function Contact() {
                 <div className="max-w-4xl mx-auto">
                     <RevealOnScroll className="text-center mb-24">
                         <h2 className="text-[10px] font-black text-emerald-500 mb-8 uppercase tracking-[0.6em] justify-center flex items-center gap-4 italic">
-                            <HelpCircle className="w-4 h-4" /> Your Guide
+                            <HelpCircle className="w-4 h-4" />
+                            <EditableText id="contact_faq_proto_tag" content="Your Guide" as="span" />
                         </h2>
                         <h3 className="text-4xl md:text-6xl font-black text-white mb-8 uppercase italic leading-none tracking-tighter">
-                            Common <EditableText id="contact_faq_title_accent" content="Questions" as="span" className="bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent italic" />
+                            <EditableText id="contact_faq_prefix" content="Common" as="span" /> <EditableText id="contact_faq_title_accent" content="Questions" as="span" className="bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent italic" />
                         </h3>
                     </RevealOnScroll>
 

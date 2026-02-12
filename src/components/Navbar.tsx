@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { EditableText } from './ui/EditableContent';
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -34,9 +35,7 @@ export default function Navbar() {
                             >
                                 <img src="/logo.png" alt="Logo" className="w-full h-full object-contain brightness-0 invert" />
                             </motion.div>
-                            <span className="text-xl md:text-2xl font-black tracking-tighter text-white">
-                                SELVABHOOMI
-                            </span>
+                            <EditableText id="nav_brand_name" content="SELVABHOOMI" as="span" className="text-xl md:text-2xl font-black tracking-tighter text-white" />
                         </Link>
 
                         {/* Desktop Menu */}
@@ -49,7 +48,7 @@ export default function Navbar() {
                                         to={link.path}
                                         className={`px-4 lg:px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all relative group ${isActive ? 'text-emerald-400' : 'text-gray-400 hover:text-white'}`}
                                     >
-                                        <span className="relative z-10">{link.name}</span>
+                                        <EditableText id={`nav_link_${link.name}`} content={link.name} as="span" className="relative z-10" />
                                         {isActive && (
                                             <motion.div
                                                 layoutId="nav-glow"
@@ -91,7 +90,7 @@ export default function Navbar() {
                                         className="text-xl font-black text-gray-300 hover:text-emerald-400 py-3 border-b border-white/5 last:border-0 italic uppercase tracking-tighter"
                                         onClick={() => setIsOpen(false)}
                                     >
-                                        {link.name}
+                                        <EditableText id={`nav_link_mobile_${link.name}`} content={link.name} as="span" />
                                     </Link>
                                 ))}
                             </div>
