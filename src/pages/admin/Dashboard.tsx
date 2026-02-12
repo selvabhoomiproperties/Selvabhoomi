@@ -86,10 +86,13 @@ export default function Dashboard() {
                     <div className="flex items-center gap-6">
                         <button
                             onClick={() => {
+                                console.log('Activating Edit Mode...');
                                 setEditMode(true);
-                                navigate('/');
+                                setTimeout(() => {
+                                    navigate('/');
+                                }, 50);
                             }}
-                            className="flex items-center text-emerald-600 hover:text-emerald-700 font-bold text-sm transition-colors"
+                            className="flex items-center text-emerald-600 hover:text-emerald-700 font-extrabold text-sm transition-colors px-3 py-1.5 rounded-lg hover:bg-emerald-50"
                         >
                             <Eye className="w-5 h-5 mr-2" />
                             Edit Site Visuals

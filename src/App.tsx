@@ -108,21 +108,30 @@ function AnimatedRoutes() {
   );
 }
 
+function AppContent() {
+  const location = useLocation();
+  const isAdminPage = location.pathname.startsWith('/admin');
+
+  return (
+    <div className={`min-h-screen text-gray-200 flex flex-col font-sans ${isAdminPage ? '' : 'cursor-none'} selection:bg-emerald-500/30 selection:text-emerald-300 ${isAdminPage ? 'bg-gray-50' : 'bg-[#030712]'}`}>
+      {!isAdminPage && <CosmicBackground />}
+      {!isAdminPage && <CustomCursor />}
+      {!isAdminPage && <Navbar />}
+      <EditorToolbar />
+      {/* Added overflow-x-hidden and w-full to prevent any layout shifts */}
+      <main className="flex-grow w-full overflow-x-hidden">
+        <AnimatedRoutes />
+      </main>
+      {!isAdminPage && <Footer />}
+    </div>
+  );
+}
+
 function App() {
   return (
     <Router>
       <EditProvider>
-        <div className="min-h-screen text-gray-200 flex flex-col font-sans cursor-none selection:bg-emerald-500/30 selection:text-emerald-300 bg-[#030712]">
-          <CosmicBackground />
-          <CustomCursor />
-          <Navbar />
-          <EditorToolbar />
-          {/* Added overflow-x-hidden and w-full to prevent any layout shifts */}
-          <main className="flex-grow w-full overflow-x-hidden">
-            <AnimatedRoutes />
-          </main>
-          <Footer />
-        </div>
+        <AppContent />
       </EditProvider>
     </Router>
   );
