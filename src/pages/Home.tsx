@@ -1,9 +1,9 @@
-import { Compass, Zap, Globe, Landmark, TrendingUp, Shield, Award, FileCheck, Users, MessageSquare, Activity, Terminal } from 'lucide-react';
+﻿import { Compass, Zap, Globe, Landmark, TrendingUp, Shield, Award, FileCheck, Users, MessageSquare, Activity, Terminal } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useSiteSettings } from '../hooks/useSiteSettings';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import RevealOnScroll from '../components/ui/reveal-on-scroll';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { EditableText, EditableImage } from '../components/ui/EditableContent';
 
 export default function Home() {
@@ -17,10 +17,45 @@ export default function Home() {
     const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
     const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
     const scale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
+    const ctaStatsRef = useRef<HTMLDivElement | null>(null);
+    const [activeHeroImage, setActiveHeroImage] = useState(0);
+    const [ctaStatsCount, setCtaStatsCount] = useState([0, 0, 0]);
+
+    const heroCarouselImages = [
+        (settings.hero_image && settings.hero_image.trim() !== '') ? settings.hero_image : "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1200&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1472396961693-142e6e269027?q=80&w=1200&auto=format&fit=crop"
+    ];
+
+    useEffect(() => {
+        const intervalId = window.setInterval(() => {
+            setActiveHeroImage((prev) => (prev + 1) % heroCarouselImages.length);
+        }, 3200);
+
+        return () => window.clearInterval(intervalId);
+    }, [heroCarouselImages.length]);
+
+    useEffect(() => {
+        if (loading) return;
+
+        const targets = [1200, 500, 100];
+        const durationMs = 1800;
+        const start = performance.now();
+
+        const animate = (now: number) => {
+            const progress = Math.min((now - start) / durationMs, 1);
+            setCtaStatsCount(targets.map((target) => Math.round(target * progress)));
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            }
+        };
+
+        requestAnimationFrame(animate);
+    }, [loading]);
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center min-h-screen bg-[#030712]">
+            <div className="flex items-center justify-center min-h-screen bg-[#f8f4ec]">
                 <motion.div
                     animate={{ rotate: 360, scale: [1, 1.2, 1] }}
                     transition={{ duration: 2, repeat: Infinity }}
@@ -31,7 +66,7 @@ export default function Home() {
     }
 
     return (
-        <div className="relative">
+        <div className="relative estate-page-bg">
             {/* Hero Section */}
             <section ref={targetRef} className="relative py-20 lg:py-28 flex items-center px-6 md:px-8 lg:px-10 overflow-hidden min-h-[85vh]">
                 <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_#10b98108_0%,_transparent_70%)] pointer-events-none"></div>
@@ -59,12 +94,12 @@ export default function Home() {
                                 />
                             </motion.div>
 
-                            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black leading-[1] mb-6 tracking-tighter text-white uppercase italic">
+                            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black leading-[1] mb-6 tracking-tighter text-slate-900 uppercase italic">
                                 <EditableText
                                     id="hero_prefix_tag"
                                     content="Future First"
                                     as="span"
-                                    className="block italic font-light text-lg md:text-xl mb-3 text-emerald-500/60 tracking-[0.2em] uppercase"
+                                    className="block italic font-light text-lg md:text-xl mb-3 text-emerald-700 tracking-[0.2em] uppercase"
                                 />
                                 <EditableText
                                     id="hero_title"
@@ -84,7 +119,7 @@ export default function Home() {
                                 id="hero_description"
                                 content={settings.hero_description || 'Own a piece of tomorrow. Legally verified, professionally curated land assets in high-growth infrastructure corridors.'}
                                 as="p"
-                                className="text-sm md:text-base text-gray-400 mb-8 leading-relaxed max-w-md font-light italic"
+                                className="text-sm md:text-base text-slate-800 mb-8 leading-relaxed max-w-md font-light italic opacity-100"
                             />
 
                             <div className="flex flex-wrap gap-4 mb-14">
@@ -100,7 +135,7 @@ export default function Home() {
                                 </Link>
                                 <motion.button
                                     whileHover={{ backgroundColor: "rgba(255,255,255,0.08)" }}
-                                    className="px-8 py-4 rounded-xl font-black text-[9px] uppercase tracking-widest text-white border border-white/10 backdrop-blur-sm transition-all flex items-center gap-2.5"
+                                    className="px-8 py-4 rounded-xl font-black text-[9px] uppercase tracking-widest text-slate-900 border border-white/10 backdrop-blur-sm transition-all flex items-center gap-2.5"
                                 >
                                     <EditableText id="hero_btn_trans" content="Transmission" as="span" />
                                     <Zap className="w-4 h-4 text-emerald-400" />
@@ -118,13 +153,13 @@ export default function Home() {
                                             id={`stat_val_${stat.id}`}
                                             content={stat.val}
                                             as="div"
-                                            className="text-2xl font-black text-white mb-0.5 leading-none italic"
+                                            className="text-2xl font-black text-slate-900 mb-0.5 leading-none italic"
                                         />
                                         <EditableText
                                             id={`stat_label_${stat.id}`}
                                             content={stat.label}
                                             as="div"
-                                            className="text-[8px] font-black text-gray-600 tracking-[0.2em] uppercase"
+                                            className="text-[8px] font-black text-slate-500 tracking-[0.2em] uppercase"
                                         />
                                     </div>
                                 ))}
@@ -133,32 +168,46 @@ export default function Home() {
 
                         <motion.div
                             style={{ y, opacity, scale }}
-                            className="relative lg:block hidden"
+                            className="relative block mt-8 lg:mt-0"
                         >
                             <div className="relative group perspective-1000">
                                 <motion.div
                                     initial={{ rotateY: 15, rotateX: 5, opacity: 0 }}
                                     animate={{ rotateY: 0, rotateX: 0, opacity: 1 }}
                                     transition={{ duration: 1.2, delay: 0.4 }}
-                                    className="relative rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl bg-gray-900 aspect-[4/5] max-h-[600px] mx-auto"
+                                    className="relative rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl bg-[#dfeee7] aspect-[4/5] max-h-[600px] mx-auto"
                                 >
-                                    <EditableImage
-                                        id="hero_image"
-                                        src={settings.hero_image || "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200&auto=format&fit=crop"}
-                                        alt="Premium land"
-                                        className="w-full h-full object-cover mix-blend-lighten opacity-80 group-hover:opacity-100 transition-opacity duration-1000"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-transparent"></div>
+                                    {heroCarouselImages.map((image, index) => (
+                                        <motion.img
+                                            key={image}
+                                            src={image}
+                                            alt={`Farming land ${index + 1}`}
+                                            className="absolute inset-0 w-full h-full object-cover"
+                                            initial={false}
+                                            animate={{ opacity: index === activeHeroImage ? 1 : 0, scale: index === activeHeroImage ? 1 : 1.04 }}
+                                            transition={{ duration: 0.9, ease: "easeInOut" }}
+                                        />
+                                    ))}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#e9e1d5] via-transparent to-transparent"></div>
 
-                                    <div className="absolute top-6 left-6 p-4 bg-black/40 backdrop-blur-md rounded-xl border border-white/10">
+                                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2.5 z-20">
+                                        {heroCarouselImages.map((_, index) => (
+                                            <span
+                                                key={`hero-dot-${index}`}
+                                                className={`h-2 rounded-full transition-all duration-500 ${index === activeHeroImage ? 'w-7 bg-emerald-500' : 'w-2 bg-white/70'}`}
+                                            />
+                                        ))}
+                                    </div>
+
+                                    <div className="absolute top-6 left-6 p-4 bg-white/80 backdrop-blur-md rounded-xl border border-white/10">
                                         <Globe className="w-4 h-4 text-emerald-400 mb-3 animate-pulse" />
                                         <EditableText id="hero_coord_label" content="Coordinates" as="div" className="text-[8px] font-black text-emerald-500/60 mb-0.5 tracking-[0.2em] uppercase" />
-                                        <EditableText id="hero_coord_val" content="12.9716° N, 77.5946° E" as="div" className="text-white font-mono text-[10px] leading-none tracking-tighter" />
+                                        <EditableText id="hero_coord_val" content="12.9716 N, 77.5946 E" as="div" className="text-slate-900 font-mono text-[10px] leading-none tracking-tighter" />
                                     </div>
 
                                     <div className="absolute bottom-6 right-6 p-4 bg-emerald-500/10 backdrop-blur-xl rounded-xl border border-emerald-500/30 text-right">
                                         <EditableText id="hero_status_label" content="Status" as="div" className="text-[8px] font-black text-emerald-400 mb-0.5 tracking-[0.2em] uppercase" />
-                                        <EditableText id="hero_status_val" content="Verified Asset" as="div" className="text-white font-black text-base leading-none italic uppercase" />
+                                        <EditableText id="hero_status_val" content="Verified Asset" as="div" className="text-slate-900 font-black text-base leading-none italic uppercase" />
                                     </div>
                                 </motion.div>
 
@@ -171,16 +220,16 @@ export default function Home() {
             </section>
 
             {/* Offerings Section */}
-            <section id="offerings" className="py-40 px-6 md:px-8 lg:px-10 relative bg-black/20">
+            <section id="offerings" className="py-40 px-6 md:px-8 lg:px-10 relative bg-[#eef8f3]">
                 <div className="max-w-7xl mx-auto">
-                    <RevealOnScroll className="text-center mb-32">
+                    <RevealOnScroll width="100%" className="text-center mb-32">
                         <EditableText
                             id="home_offerings_tag"
                             content="Handpicked Assets"
                             as="div"
-                            className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.5em] mb-6"
+                            className="text-[10px] font-black text-emerald-500 uppercase tracking-[0.5em] mb-6 text-center"
                         />
-                        <h2 className="text-4xl md:text-7xl font-black text-white mb-8 uppercase tracking-tighter italic">
+                        <h2 className="text-4xl md:text-7xl font-black text-slate-900 mb-8 uppercase tracking-tighter italic text-center mx-auto">
                             <EditableText
                                 id="home_offerings_title_prime"
                                 content="Prime"
@@ -197,7 +246,7 @@ export default function Home() {
                             id="home_offerings_desc"
                             content='"Handpicked land assets for every lifestyle. High-growth residential plots and lush managed farmlands designed for your future."'
                             as="p"
-                            className="text-gray-400 max-w-2xl mx-auto font-light text-xl italic leading-relaxed"
+                            className="text-slate-600 max-w-2xl mx-auto font-light text-xl italic leading-relaxed text-center"
                         />
                     </RevealOnScroll>
 
@@ -208,7 +257,7 @@ export default function Home() {
                                 desc: 'Premium plots in high-growth corridors with 100% DTCP approval and clear titles.',
                                 icon: Landmark,
                                 points: ['100% Top Quality', 'Rapid Appreciation', 'Ready for Construction', 'Clear Path for Growth'],
-                                theme: 'from-emerald-900/40 to-black',
+                                theme: 'from-emerald-900/40 to-[#f5efe4]',
                                 accent: 'emerald',
                             },
                             {
@@ -216,40 +265,41 @@ export default function Home() {
                                 desc: 'Premium organic farmlands meticulously managed for you. Passive income with zero maintenance.',
                                 icon: TrendingUp,
                                 points: ['Free Lifecycle Maint.', 'Mango & Teak Harvest', 'Guaranteed Returns', 'Perfect Weekend Retreat'],
-                                theme: 'from-teal-900/40 to-black',
+                                theme: 'from-teal-900/40 to-[#f5efe4]',
                                 accent: 'teal',
                                 label: 'MOST POPULAR'
                             }
                         ].map((card, i) => (
-                            <RevealOnScroll key={i} delay={i * 0.2}>
+                            <RevealOnScroll key={i} delay={i * 0.2} width="100%">
                                 <div className={`group relative bg-gradient-to-br ${card.theme} rounded-[4rem] p-16 border border-white/5 hover:border-emerald-500/30 transition-all duration-700 h-full flex flex-col shadow-2xl overflow-hidden`}>
                                     <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_0%_0%,_rgba(16,185,129,0.1)_0%,_transparent_50%)]"></div>
 
                                     <div className="relative z-10 flex-grow">
-                                        <div className="w-24 h-24 bg-black/60 rounded-3xl flex items-center justify-center mb-12 border border-white/10 group-hover:scale-110 transition-transform duration-500 shadow-2xl">
-                                            <card.icon className="w-12 h-12 text-emerald-400" />
+                                        <div className="mb-8 flex items-start justify-between gap-4">
+                                            <div className="w-24 h-24 bg-white/85 rounded-3xl flex items-center justify-center border border-white/10 group-hover:scale-110 transition-transform duration-500 shadow-2xl">
+                                                <card.icon className="w-12 h-12 text-emerald-400" />
+                                            </div>
+                                            {card.label && (
+                                                <EditableText
+                                                    id={`home_offer_${i}_label`}
+                                                    content={card.label}
+                                                    as="div"
+                                                    className="inline-block bg-emerald-500 text-black text-[10px] font-black px-4 py-1.5 rounded-lg tracking-[0.3em] shadow-2xl mt-1"
+                                                />
+                                            )}
                                         </div>
-
-                                        {card.label && (
-                                            <EditableText
-                                                id={`home_offer_${i}_label`}
-                                                content={card.label}
-                                                as="div"
-                                                className="inline-block bg-emerald-500 text-black text-[10px] font-black px-4 py-1.5 rounded-lg mb-8 tracking-[0.3em] shadow-2xl"
-                                            />
-                                        )}
 
                                         <EditableText
                                             id={`home_offer_${i}_title`}
                                             content={card.title}
                                             as="h3"
-                                            className="text-4xl font-black text-white mb-8 uppercase italic tracking-tighter group-hover:translate-x-3 transition-transform duration-500"
+                                            className="text-4xl font-black text-slate-900 mb-8 uppercase italic tracking-tighter group-hover:translate-x-3 transition-transform duration-500"
                                         />
                                         <EditableText
                                             id={`home_offer_${i}_desc`}
                                             content={`"${card.desc}"`}
                                             as="p"
-                                            className="text-gray-400 mb-12 leading-relaxed font-light text-xl italic opacity-80 group-hover:opacity-100 transition-opacity"
+                                            className="text-slate-600 mb-12 leading-relaxed font-light text-xl italic opacity-80 group-hover:opacity-100 transition-opacity"
                                         />
 
                                         <div className="grid grid-cols-2 gap-6 mb-16">
@@ -260,14 +310,14 @@ export default function Home() {
                                                         id={`home_offer_${i}_pt_${j}`}
                                                         content={pt}
                                                         as="span"
-                                                        className="text-[10px] font-black text-gray-500 uppercase tracking-widest group-hover:text-gray-300 transition-colors"
+                                                        className="text-[10px] font-black text-slate-600 uppercase tracking-widest"
                                                     />
                                                 </div>
                                             ))}
                                         </div>
                                     </div>
 
-                                    <button className="relative z-10 w-full py-6 rounded-2xl font-black text-xs uppercase tracking-[0.4em] border border-white/10 hover:bg-emerald-500 hover:text-black hover:border-emerald-500 transition-all duration-700 shadow-2xl">
+                                    <button className="relative z-10 w-full py-6 rounded-2xl font-black text-xs uppercase tracking-[0.4em] border border-white/20 bg-white/90 text-black transition-all duration-700 shadow-2xl">
                                         <EditableText id={`home_offer_${i}_btn`} content="Access Database" as="span" />
                                     </button>
                                 </div>
@@ -289,18 +339,18 @@ export default function Home() {
                                 <div className="relative rounded-[3.5rem] overflow-hidden border border-white/10 shadow-2xl">
                                     <EditableImage
                                         id="home_infra_image"
-                                        src={settings.home_infra_image || "file:///Users/ashiq/.gemini/antigravity/brain/9a4b7b56-95e9-4998-9e99-98854a31cadd/infrastructure_matrix_visual_1770913790026.png"}
+                                        src={settings.home_infra_image || "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1400&auto=format&fit=crop"}
                                         alt="Infrastructure Matrix"
-                                        className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000"
+                                        className="w-full h-[420px] md:h-[520px] lg:h-[620px] object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000"
                                     />
-                                    <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#030712] to-transparent"></div>
+                                    <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#e9e1d5] to-transparent"></div>
 
-                                    <div className="absolute bottom-10 left-10 right-10 p-6 lg:p-8 bg-black/60 backdrop-blur-2xl rounded-3xl border border-white/10">
+                                    <div className="absolute bottom-10 left-10 right-10 p-6 lg:p-8 bg-white/85 backdrop-blur-2xl rounded-3xl border border-white/10">
                                         <div className="flex items-center gap-4 mb-4">
                                             <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
                                             <EditableText id="home_infra_tag" content="Real-time Matrix Sync" as="span" className="text-[9px] lg:text-[10px] font-black text-emerald-400 tracking-[0.4em] uppercase font-mono" />
                                         </div>
-                                        <EditableText id="home_infra_label" content="Parandur Corridor // Phase 01" as="div" className="text-white font-black text-xl lg:text-2xl italic uppercase tracking-widest leading-tight" />
+                                        <EditableText id="home_infra_label" content="Parandur Corridor // Phase 01" as="div" className="text-slate-900 font-black text-xl lg:text-2xl italic uppercase tracking-widest leading-tight" />
                                     </div>
                                 </div>
                             </div>
@@ -311,14 +361,14 @@ export default function Home() {
                                 <Activity className="w-4 h-4" />
                                 <EditableText id="home_infra_insights_tag" content="Market Insights" as="span" />
                             </h2>
-                            <h3 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-10 uppercase italic leading-[1] tracking-tighter">
+                            <h3 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 mb-10 uppercase italic leading-[1] tracking-tighter">
                                 The <EditableText id="home_infra_title_accent" content="Growth" as="span" className="bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent" /> Corridor
                             </h3>
                             <EditableText
                                 id="home_infra_desc"
-                                content='"Secure your future in the heart of the developing Parandur Airport ecosystem. We don’t just sell land; we identify the most profitable assets for your long-term wealth."'
+                                content='"Secure your future in the heart of the developing Parandur Airport ecosystem. We donâ€™t just sell land; we identify the most profitable assets for your long-term wealth."'
                                 as="p"
-                                className="text-base lg:text-lg text-gray-500 font-light italic leading-relaxed mb-12"
+                                className="text-base lg:text-lg text-slate-600 font-light italic leading-relaxed mb-12"
                             />
 
                             <div className="space-y-6 lg:space-y-8">
@@ -330,8 +380,8 @@ export default function Home() {
                                     <div key={i} className="flex gap-6 lg:gap-8 group/node">
                                         <div className="w-px h-12 lg:h-16 bg-gradient-to-b from-emerald-500/40 to-transparent group-hover/node:from-emerald-500 transition-all duration-500"></div>
                                         <div>
-                                            <EditableText id={`home_infra_node_${node.id}_title`} content={node.title} as="div" className="text-[10px] lg:text-xs font-black text-white mb-2 tracking-[0.3em] uppercase" />
-                                            <EditableText id={`home_infra_node_${node.id}_desc`} content={`"${node.desc}"`} as="div" className="text-xs lg:text-sm text-gray-500 font-light italic" />
+                                            <EditableText id={`home_infra_node_${node.id}_title`} content={node.title} as="div" className="text-[10px] lg:text-xs font-black text-slate-900 mb-2 tracking-[0.3em] uppercase" />
+                                            <EditableText id={`home_infra_node_${node.id}_desc`} content={`"${node.desc}"`} as="div" className="text-xs lg:text-sm text-slate-600 font-light italic" />
                                         </div>
                                     </div>
                                 ))}
@@ -351,7 +401,7 @@ export default function Home() {
                             { icon: FileCheck, title: 'LEGACY PLANNING', desc: 'Designed to build and preserve wealth for your future generations.' }
                         ].map((item, i) => (
                             <RevealOnScroll key={i} delay={i * 0.1} className="h-full">
-                                <div className="relative bg-[#030712] p-20 group hover:bg-emerald-500/[0.03] transition-colors duration-1000 h-full border-r border-white/5 last:border-0">
+                                <div className="relative bg-[#f3eee4] p-20 group hover:bg-emerald-500/[0.03] transition-colors duration-1000 h-full border-r border-white/5 last:border-0">
                                     <div className="absolute top-0 left-0 w-24 h-24 border-t-2 border-l-2 border-emerald-500/10 opacity-0 group-hover:opacity-100 transition-all duration-1000"></div>
                                     <div className="absolute bottom-0 right-0 w-24 h-24 border-b-2 border-r-2 border-emerald-500/10 opacity-0 group-hover:opacity-100 transition-all duration-1000"></div>
 
@@ -362,13 +412,13 @@ export default function Home() {
                                         id={`home_why_${i}_title`}
                                         content={item.title}
                                         as="h3"
-                                        className="text-2xl font-black text-white mb-6 uppercase tracking-[0.2em] italic"
+                                        className="text-2xl font-black text-slate-900 mb-6 uppercase tracking-[0.2em] italic"
                                     />
                                     <EditableText
                                         id={`home_why_${i}_desc`}
                                         content={`"${item.desc}"`}
                                         as="p"
-                                        className="text-gray-500 text-lg leading-relaxed font-light italic"
+                                        className="text-slate-600 text-lg leading-relaxed font-light italic"
                                     />
                                 </div>
                             </RevealOnScroll>
@@ -377,51 +427,51 @@ export default function Home() {
 
                     <div className="mt-40">
                         <RevealOnScroll>
-                            <div className="relative bg-gradient-to-br from-[#064e3b15] to-black rounded-[5rem] p-16 md:p-24 border border-white/5 overflow-hidden shadow-2xl">
+                            <div className="relative bg-gradient-to-br from-[#cff7ec] to-[#f5efe4] rounded-[2.5rem] md:rounded-[5rem] p-6 sm:p-8 md:p-24 border border-white/5 overflow-hidden shadow-2xl">
                                 <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_100%_0%,_#10b98110_0%,_transparent_50%)]"></div>
 
-                                <div className="grid lg:grid-cols-2 gap-32 items-center relative z-10">
+                                <div className="grid lg:grid-cols-2 gap-10 md:gap-14 lg:gap-32 items-center relative z-10">
                                     <div className="text-left">
-                                        <h3 className="text-5xl md:text-6xl font-black text-white mb-12 uppercase italic leading-[0.8] tracking-widest">
+                                        <h3 className="text-3xl sm:text-4xl md:text-6xl font-black text-slate-900 mb-8 md:mb-12 uppercase italic leading-[0.95] md:leading-[0.8] tracking-[0.08em] md:tracking-widest">
                                             <EditableText id="home_secure_title_top" content="Secure" as="span" /> <br />
-                                            <EditableText id="home_secure_title_bottom" content="Ownership" as="span" className="text-emerald-500 bg-emerald-500/10 px-4 py-2 rounded-2xl border border-emerald-500/20" />
+                                            <EditableText id="home_secure_title_bottom" content="Ownership" as="span" className="inline-block text-emerald-500 bg-emerald-500/10 px-4 py-2 rounded-2xl border border-emerald-500/20 ml-[15px] md:ml-0" />
                                         </h3>
-                                        <div className="space-y-10">
+                                        <div className="space-y-6 md:space-y-10">
                                             {[
                                                 { title: 'TITLE VERIFICATION', val: 'DONE', id: 'title' },
                                                 { title: 'FREE MAINTENANCE', val: 'YES', id: 'maint' },
                                                 { title: 'FENCING & SECURITY', val: 'INCLUDED', id: 'fence' },
                                                 { title: 'ORGANIC FARMING', val: 'READY', id: 'farm' }
                                             ].map((risk, i) => (
-                                                <div key={i} className="flex items-center justify-between border-b border-white/10 pb-6 group/row hover:border-emerald-500/40 transition-all duration-500">
-                                                    <EditableText id={`home_secure_item_${risk.id}_title`} content={risk.title} as="span" className="text-xs font-black text-gray-500 tracking-[0.5em] group-hover/row:text-white transition-colors" />
+                                                <div key={i} className="flex items-start sm:items-center justify-between gap-3 border-b border-white/10 pb-4 md:pb-6 group/row hover:border-emerald-500/40 transition-all duration-500">
+                                                    <EditableText id={`home_secure_item_${risk.id}_title`} content={risk.title} as="span" className="text-[10px] sm:text-xs font-black text-slate-600 tracking-[0.25em] sm:tracking-[0.5em] group-hover/row:text-slate-900 transition-colors" />
                                                     <EditableText id={`home_secure_item_${risk.id}_val`} content={risk.val} as="span" className="text-emerald-400 font-black text-sm italic shadow-emerald-500/50" />
                                                 </div>
                                             ))}
                                         </div>
                                     </div>
 
-                                    <div className="glass-card-cosmic rounded-[4rem] p-16 relative overflow-hidden group/card shadow-[0_50px_100px_-20px_rgba(0,0,0,0.6)]">
-                                        <div className="flex items-center gap-6 mb-16">
-                                            <div className="p-6 bg-emerald-500/20 rounded-3xl border border-emerald-500/30">
-                                                <Users className="w-10 h-10 text-emerald-400" />
+                                    <div className="glass-card-cosmic rounded-[2.5rem] md:rounded-[4rem] p-6 sm:p-8 md:p-16 relative overflow-hidden group/card shadow-[0_50px_100px_-20px_rgba(0,0,0,0.6)]">
+                                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 mb-8 md:mb-16">
+                                            <div className="p-4 sm:p-5 md:p-6 bg-emerald-500/20 rounded-2xl md:rounded-3xl border border-emerald-500/30">
+                                                <Users className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-emerald-400" />
                                             </div>
                                             <div>
-                                                <EditableText id="home_comm_title" content="Our Community" as="div" className="text-3xl font-black text-white tracking-widest italic uppercase" />
-                                                <EditableText id="home_comm_stat" content="1000+ Happy Families" as="div" className="text-[10px] font-black text-emerald-500/60 uppercase tracking-[0.4em] mt-2" />
+                                                <EditableText id="home_comm_title" content="Our Community" as="div" className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 tracking-[0.12em] md:tracking-widest italic uppercase leading-tight break-words" />
+                                                <EditableText id="home_comm_stat" content="1000+ Happy Families" as="div" className="text-[9px] sm:text-[10px] font-black text-emerald-500/60 uppercase tracking-[0.2em] sm:tracking-[0.4em] mt-2" />
                                             </div>
                                         </div>
 
-                                        <div className="space-y-10">
+                                        <div className="space-y-6 md:space-y-10">
                                             {[
                                                 { title: 'CORPORATE LEADERS', color: 'from-emerald-500', id: 'corp', desc: 'Validated architecture for generational preservation protocols.' },
                                                 { title: 'GLOBAL NRIS', color: 'from-teal-500', id: 'nri', desc: 'Validated architecture for generational preservation protocols.' },
                                                 { title: 'LEGACY PLANNERS', color: 'from-cyan-500', id: 'legacy', desc: 'Validated architecture for generational preservation protocols.' }
                                             ].map((item, i) => (
-                                                <div key={i} className="relative pl-12 group/item">
+                                                <div key={i} className="relative pl-6 sm:pl-8 md:pl-12 group/item">
                                                     <div className={`absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b ${item.color} to-transparent rounded-full group-hover/item:h-full transition-all duration-700`}></div>
-                                                    <EditableText id={`home_comm_item_${item.id}_title`} content={item.title} as="div" className="font-black text-white text-xl tracking-widest uppercase italic mb-2" />
-                                                    <EditableText id={`home_comm_item_${item.id}_desc`} content={`"${item.desc}"`} as="div" className="text-sm text-gray-500 font-light italic leading-relaxed" />
+                                                    <EditableText id={`home_comm_item_${item.id}_title`} content={item.title} as="div" className="font-black text-slate-900 text-base sm:text-lg md:text-xl tracking-[0.12em] md:tracking-widest uppercase italic mb-2 leading-tight break-words" />
+                                                    <EditableText id={`home_comm_item_${item.id}_desc`} content={`"${item.desc}"`} as="div" className="text-sm text-slate-600 font-light italic leading-relaxed" />
                                                 </div>
                                             ))}
                                         </div>
@@ -436,11 +486,11 @@ export default function Home() {
             {/* Investor Transmission Logs (Testimonials) */}
             <section className="py-20 lg:py-40 px-6 md:px-8 lg:px-10 relative overflow-hidden">
                 <div className="max-w-7xl mx-auto">
-                    <RevealOnScroll className="text-center mb-16 lg:mb-24">
+                    <RevealOnScroll width="100%" className="text-center mb-16 lg:mb-24">
                         <h2 className="text-[10px] font-black text-emerald-500 mb-8 uppercase tracking-[0.6em] justify-center flex items-center gap-4 italic">
                             <MessageSquare className="w-4 h-4" /> Transmission Logs
                         </h2>
-                        <h3 className="text-4xl md:text-5xl lg:text-7xl font-black text-white mb-8 uppercase italic leading-none tracking-tighter">
+                        <h3 className="text-4xl md:text-5xl lg:text-7xl font-black text-slate-900 mb-8 uppercase italic leading-none tracking-tighter">
                             Validated <EditableText id="home_testimonial_accent" content="Outcomes" as="span" className="bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent italic" />
                         </h3>
                     </RevealOnScroll>
@@ -466,14 +516,14 @@ export default function Home() {
                                             id={`testimonial_${i}_log`}
                                             content={`"${log.log}"`}
                                             as="p"
-                                            className="text-sm lg:text-lg text-gray-400 leading-relaxed font-light italic mb-10 group-hover:text-white transition-colors"
+                                            className="text-sm lg:text-lg text-slate-600 leading-relaxed font-light italic mb-10 group-hover:text-slate-900 transition-colors"
                                         />
                                         <div className="pt-8 border-t border-white/5">
                                             <EditableText
                                                 id={`testimonial_${i}_name`}
                                                 content={log.name}
                                                 as="div"
-                                                className="font-black text-white tracking-widest uppercase"
+                                                className="font-black text-slate-900 tracking-widest uppercase"
                                             />
                                             <EditableText
                                                 id={`testimonial_${i}_role`}
@@ -491,12 +541,12 @@ export default function Home() {
             </section>
 
             {/* CTA Section */}
-            <section className="py-40 lg:py-56 px-6 md:px-8 lg:px-10 relative overflow-hidden bg-black/60">
+            <section className="py-40 lg:py-56 px-6 md:px-8 lg:px-10 relative overflow-hidden bg-[#eaf6f1]">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#10b98110_0%,_transparent_60%)]"></div>
 
                 <div className="max-w-5xl mx-auto text-center relative z-10 w-full">
                     <RevealOnScroll>
-                        <h2 className="text-6xl md:text-9xl font-black mb-16 text-white uppercase italic tracking-[0.1em] leading-none">
+                        <h2 className="text-6xl md:text-9xl font-black mb-16 text-slate-900 uppercase italic tracking-[0.1em] leading-none">
                             <EditableText id="home_cta_title_top" content="Secure" as="span" /> <br />
                             <EditableText id="home_cta_title_bottom" content="Your Future" as="span" className="bg-gradient-to-r from-emerald-400 via-emerald-300 to-teal-500 bg-clip-text text-transparent italic drop-shadow-[0_0_50px_rgba(16,185,129,0.5)]" />
                         </h2>
@@ -504,7 +554,7 @@ export default function Home() {
                             id="home_cta_desc"
                             content='"The growth corridor is accelerating. Secure your dream plot or managed farmland before the Parandur Airport phase completes."'
                             as="p"
-                            className="text-xl md:text-2xl text-gray-500 mb-24 leading-relaxed max-w-3xl mx-auto font-light italic opacity-80"
+                            className="text-xl md:text-2xl text-slate-600 mb-24 leading-relaxed max-w-3xl mx-auto font-light italic opacity-80"
                         />
 
                         <div className="flex flex-wrap gap-10 justify-center mb-32">
@@ -519,15 +569,15 @@ export default function Home() {
                             </Link>
                         </div>
 
-                        <div className="grid md:grid-cols-3 gap-0 bg-white/5 rounded-[3rem] overflow-hidden border border-white/5 shadow-2xl">
+                        <div ref={ctaStatsRef} className="grid md:grid-cols-3 gap-0 bg-white/5 rounded-[3rem] overflow-hidden border border-white/5 shadow-2xl">
                             {[
-                                { val: '1.2k+', label: 'HAPPY FAMILIES', id: 'fam' },
-                                { val: '500A+', label: 'ACRES DELIVERED', id: 'acr' },
-                                { val: '100%', label: 'SUCCESS RATE', id: 'succ' }
+                                { label: 'HAPPY FAMILIES', id: 'fam', format: (v: number) => `${(v / 1000).toFixed(1)}k+` },
+                                { label: 'ACRES DELIVERED', id: 'acr', format: (v: number) => `${v}A+` },
+                                { label: 'SUCCESS RATE', id: 'succ', format: (v: number) => `${v}%` }
                             ].map((stat, i) => (
-                                <div key={i} className="bg-black/60 backdrop-blur-3xl p-16 hover:bg-emerald-500/5 transition-all duration-700 border-r border-white/5 last:border-0">
-                                    <EditableText id={`home_stat_val_${stat.id}`} content={stat.val} as="div" className="text-5xl font-black mb-3 text-white italic tracking-tighter" />
-                                    <EditableText id={`home_stat_label_${stat.id}`} content={stat.label} as="div" className="text-[10px] font-black text-gray-700 tracking-[0.5em] uppercase" />
+                                <div key={i} className="bg-white/85 backdrop-blur-3xl p-16 hover:bg-emerald-500/5 transition-all duration-700 border-r border-white/5 last:border-0">
+                                    <div className="text-5xl font-black mb-3 text-slate-900 italic tracking-tighter">{stat.format(ctaStatsCount[i])}</div>
+                                    <EditableText id={`home_stat_label_${stat.id}`} content={stat.label} as="div" className="text-[10px] font-black text-slate-500 tracking-[0.5em] uppercase" />
                                 </div>
                             ))}
                         </div>
@@ -537,3 +587,5 @@ export default function Home() {
         </div>
     );
 }
+
+

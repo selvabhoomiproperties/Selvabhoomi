@@ -54,40 +54,39 @@ export default function Properties() {
     }
 
     return (
-        <div className="pt-40 pb-32 relative px-6 md:px-8 lg:px-10">
+        <div className="pt-40 pb-32 relative px-6 md:px-8 lg:px-10 estate-page-bg min-h-screen">
             <div className="max-w-7xl mx-auto">
-                <RevealOnScroll className="text-center mb-32">
-                    <div className="inline-flex items-center gap-3 bg-emerald-500/10 px-6 py-2.5 rounded-full border border-emerald-500/20 mb-8 font-mono text-[10px] tracking-[0.4em] text-emerald-400">
+                <RevealOnScroll width="100%" className="text-center mb-32">
+                    <div className="inline-flex items-center gap-3 bg-emerald-500/10 px-6 py-2.5 rounded-full border border-emerald-500/20 mb-8 font-mono text-[10px] tracking-[0.4em] text-black">
                         <Globe className="w-4 h-4 animate-pulse" />
                         <EditableText id="properties_hero_tag" content="SCANNING AVAILABLE ASSET NODES" as="span" />
                     </div>
-                    <h1 className="text-5xl md:text-8xl font-black text-white mb-8 tracking-tighter italic uppercase underline-offset-[20px] decoration-emerald-500/30">
+                    <h1 className="text-5xl md:text-8xl font-black text-slate-900 mb-8 tracking-tighter italic uppercase underline-offset-[20px] decoration-emerald-500/30">
                         <EditableText id="properties_hero_prefix" content="Global" as="span" /> <EditableText id="properties_hero_title_accent" content="Inventory" as="span" className="bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(16,185,129,0.4)]" />
                     </h1>
                     <EditableText
                         id="properties_hero_desc"
                         content='"Secure entry into high-growth developmental corridors. Every inventory node valuated for maximum legacy preservation protocols."'
                         as="p"
-                        className="text-xl text-gray-400 max-w-2xl mx-auto font-light leading-relaxed italic opacity-80"
+                        className="text-xl text-black max-w-2xl mx-auto font-light leading-relaxed italic opacity-90"
                     />
                 </RevealOnScroll>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12">
                     {properties.map((property, index) => (
-                        <RevealOnScroll key={property.id} delay={index * 0.1}>
+                        <RevealOnScroll key={property.id} delay={index * 0.1} width="100%">
                             <motion.div
-                                whileHover={{ y: -10 }}
-                                className="group bg-gradient-to-b from-white/[0.03] to-transparent rounded-[3rem] overflow-hidden border border-white/5 hover:border-emerald-500/30 transition-all duration-700 flex flex-col h-full hover:shadow-2xl"
+                                className="group bg-gradient-to-b from-white/[0.03] to-transparent rounded-[3rem] overflow-hidden border border-emerald-500/30 transition-all duration-700 flex flex-col h-full min-h-[760px]"
                             >
                                 <div className="relative overflow-hidden aspect-[4/3]">
                                     <img
                                         src={property.images[0]}
                                         alt={property.title}
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 opacity-70 group-hover:opacity-100 mix-blend-lighten"
+                                        className="w-full h-full object-cover opacity-90"
                                         loading="lazy"
                                     />
                                     <div className="absolute top-6 left-6">
-                                        <span className="bg-black/80 backdrop-blur-xl px-4 py-1.5 rounded-xl text-[8px] font-black text-white uppercase tracking-[0.2em] border border-white/10 shadow-2xl">
+                                        <span className="bg-white/90 backdrop-blur-xl px-4 py-1.5 rounded-xl text-[8px] font-black text-slate-900 uppercase tracking-[0.2em] border border-white/10 shadow-2xl">
                                             {property.type}
                                         </span>
                                     </div>
@@ -95,7 +94,7 @@ export default function Properties() {
                                 </div>
 
                                 <div className="p-10 flex-1 flex flex-col">
-                                    <h3 className="text-2xl font-black text-white mb-3 group-hover:text-emerald-400 transition-colors uppercase italic tracking-tighter leading-none">
+                                    <h3 className="text-2xl font-black text-slate-900 mb-3 group-hover:text-emerald-400 transition-colors uppercase italic tracking-tighter leading-none">
                                         {property.title}
                                     </h3>
 
@@ -114,17 +113,17 @@ export default function Properties() {
 
                                     <div className="mt-auto grid grid-cols-2 gap-6 pt-8 border-t border-white/5">
                                         <div>
-                                            <EditableText id="prop_valuation_label" content="VALUATION" as="div" className="text-[8px] text-emerald-500/40 mb-2 flex items-center gap-1.5 uppercase tracking-widest font-black" />
-                                            <div className="font-black text-white text-2xl tracking-tighter italic">{property.price}</div>
+                                            <EditableText id="prop_valuation_label" content="VALUATION" as="div" className="text-[8px] text-black mb-2 flex items-center gap-1.5 uppercase tracking-widest font-black" />
+                                            <div className="font-black text-slate-900 text-2xl tracking-tighter italic">{property.price}</div>
                                         </div>
                                         <div className="text-right">
                                             <EditableText id="prop_domain_label" content="DOMAIN" as="div" className="text-[8px] text-gray-700 mb-2 flex items-center justify-end gap-1.5 uppercase tracking-widest font-black" />
-                                            <div className="font-black text-white text-2xl tracking-tighter italic">{property.size}</div>
+                                            <div className="font-black text-slate-900 text-2xl tracking-tighter italic">{property.size}</div>
                                         </div>
                                     </div>
 
                                     <Link to={`/properties/${property.id}`} className="block w-full mt-10">
-                                        <button className="w-full bg-white/5 text-white font-black py-5 rounded-xl border border-white/10 hover:bg-emerald-500 hover:text-black hover:border-emerald-500 transition-all duration-500 uppercase tracking-[0.3em] text-[10px] flex items-center justify-center gap-3">
+                                        <button className="w-full bg-white/80 text-slate-900 font-black py-5 rounded-xl border border-white/10 hover:bg-emerald-500 hover:text-black hover:border-emerald-500 transition-all duration-500 uppercase tracking-[0.3em] text-[10px] flex items-center justify-center gap-3">
                                             <EditableText id="prop_access_btn" content="Access Node" as="span" />
                                             <Compass className="w-4 h-4" />
                                         </button>

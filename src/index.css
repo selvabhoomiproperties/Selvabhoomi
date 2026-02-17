@@ -4,10 +4,10 @@
 
 @layer base {
     :root {
-        --cosmic-bg: #030712;
-        --cosmic-accent: #10b981;
-        --cosmic-highlight: #34d399;
-        --cosmic-glow: rgba(16, 185, 129, 0.4);
+        --cosmic-bg: #f6f1e8;
+        --cosmic-accent: #14b8a6;
+        --cosmic-highlight: #d97706;
+        --cosmic-glow: rgba(20, 184, 166, 0.35);
     }
 
     html {
@@ -16,7 +16,7 @@
     }
 
     body {
-        @apply antialiased text-gray-200 bg-[#030712];
+        @apply antialiased text-slate-800 bg-[#f6f1e8];
         overflow-x: hidden;
     }
 
@@ -30,19 +30,26 @@
     }
 
     ::-webkit-scrollbar-track {
-        @apply bg-gray-950;
+        @apply bg-emerald-50;
     }
 
     ::-webkit-scrollbar-thumb {
-        @apply bg-emerald-900/50 rounded-full hover:bg-emerald-800 transition-colors;
-        border: 2px solid #030712;
+        @apply bg-emerald-500/50 rounded-full hover:bg-emerald-600 transition-colors;
+        border: 2px solid #f6f1e8;
     }
 }
 
 @layer utilities {
     .cosmic-gradient {
-        background: radial-gradient(circle at top right, #064e3b 0%, #030712 50%),
-            radial-gradient(circle at bottom left, #042f2e 0%, #030712 50%);
+        background: radial-gradient(circle at top right, #99f6e4 0%, #f6f1e8 55%),
+            radial-gradient(circle at bottom left, #d1fae5 0%, #f6f1e8 55%);
+    }
+
+    .estate-page-bg {
+        background:
+            radial-gradient(circle at 15% 18%, rgba(20, 184, 166, 0.18) 0%, transparent 36%),
+            radial-gradient(circle at 85% 78%, rgba(217, 119, 6, 0.15) 0%, transparent 32%),
+            linear-gradient(180deg, #f8f4ec 0%, #eff9f5 45%, #f6f1e8 100%);
     }
 
     .text-glow {
@@ -58,10 +65,26 @@
     }
 
     .glass-card-dark {
-        @apply bg-black/60 backdrop-blur-2xl border border-white/5 shadow-2xl;
+        @apply bg-white/80 backdrop-blur-2xl border border-emerald-100 shadow-2xl;
     }
 
     .glow-emerald {
         box-shadow: 0 0 30px -5px rgba(16, 185, 129, 0.3);
+    }
+
+    /* Remove card drop shadows/faded gray blocks under cards across site pages */
+    .estate-page-bg [class*="shadow"] {
+        box-shadow: none !important;
+    }
+
+    /* Darker paragraph text across website content */
+    .estate-page-bg p {
+        color: #334155 !important;
+    }
+
+    /* Card paragraphs: make ~50% darker and remove faded look */
+    .estate-page-bg .group p {
+        color: #1f2937 !important;
+        opacity: 1 !important;
     }
 }
