@@ -85,7 +85,7 @@ export default function Footer() {
                                 <div className="p-3 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 group-hover:bg-emerald-500/20 transition-all">
                                     <MapPin className="w-5 h-5 text-emerald-400" />
                                 </div>
-                                <EditableText id="footer_address" content="123, Green Tech Park, OMR, Chennai, Tamil Nadu - 600096" as="span" className="text-gray-500 text-sm leading-relaxed italic font-light" />
+                                <EditableText id="footer_address" content="No.30, 1st Floor, Venkadeshwara Nagar, 2nd Street, Valasaravakkam, Chennai-600087" as="span" className="text-gray-500 text-sm leading-relaxed italic font-light" />
                             </li>
                             <li className="flex items-center gap-5 group">
                                 <div className="p-3 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 group-hover:bg-emerald-500/20 transition-all">
@@ -113,12 +113,17 @@ export default function Footer() {
                     </RevealOnScroll>
                 </div>
 
-                <RevealOnScroll delay={0.5} className="pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-10">
-                    <EditableText id="footer_copy" content="&copy; 2024 SELVABHOOMI PROPERTIES. ARCHITECTS OF LEGACY." as="p" className="text-gray-600 font-black text-[10px] tracking-[0.4em] uppercase" />
-                    <div className="flex gap-12 text-[10px] font-black text-emerald-500/40 tracking-[0.5em] uppercase italic">
-                        <span className="flex items-center gap-2"><Shield className="w-3 h-3" /> <EditableText id="footer_cred_1" content="Security First" as="span" /></span>
-                        <span className="flex items-center gap-2"><Globe className="w-3 h-3" /> <EditableText id="footer_cred_2" content="Global Standard" as="span" /></span>
-                        <span className="flex items-center gap-2"><Zap className="w-3 h-3" /> <EditableText id="footer_cred_3" content="Velocity Horizon" as="span" /></span>
+                <RevealOnScroll delay={0.5} className="pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 md:gap-10">
+                    <EditableText
+                        id="footer_copy"
+                        content="&copy; 2024 SELVABHOOMI PROPERTIES. ARCHITECTS OF LEGACY."
+                        as="p"
+                        className="text-gray-600 font-black text-[10px] tracking-[0.2em] sm:tracking-[0.3em] md:tracking-[0.4em] uppercase text-center md:text-left"
+                    />
+                    <div className="flex flex-wrap justify-center md:justify-end gap-x-5 gap-y-3 md:gap-x-10 text-[10px] font-black text-emerald-500/40 tracking-[0.2em] sm:tracking-[0.35em] md:tracking-[0.5em] uppercase italic w-full md:w-auto">
+                        <span className="flex items-center gap-2 whitespace-nowrap"><Shield className="w-3 h-3 shrink-0" /> <EditableText id="footer_cred_1" content="Security First" as="span" /></span>
+                        <span className="flex items-center gap-2 whitespace-nowrap"><Globe className="w-3 h-3 shrink-0" /> <EditableText id="footer_cred_2" content="Global Standard" as="span" /></span>
+                        <span className="flex items-center gap-2 whitespace-nowrap"><Zap className="w-3 h-3 shrink-0" /> <EditableText id="footer_cred_3" content="Velocity Horizon" as="span" /></span>
                     </div>
                 </RevealOnScroll>
             </div>

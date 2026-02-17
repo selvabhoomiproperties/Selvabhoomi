@@ -90,7 +90,7 @@ export default function Contact() {
                                 </h2>
                                 <div className="space-y-6 sm:space-y-8 md:space-y-12">
                                     {[
-                                        { icon: MapPin, title: 'OUR OFFICE LOCATION', value: '123, Green Tech Park, OMR, Chennai, TN - 600096' },
+                                        { icon: MapPin, title: 'OUR OFFICE LOCATION', value: 'No.30, 1st Floor, Venkadeshwara Nagar, 2nd Street, Valasaravakkam, Chennai-600087' },
                                         { icon: Phone, title: 'GIVE US A CALL', value: '+91 91 76002 530', sub: 'AVAILABLE: MON-SAT, 09:00 AM - 06:00 PM' },
                                         { icon: Mail, title: 'SEND US AN EMAIL', value: 'admin@selvabhoomiproperties.in' },
                                         { icon: Clock, title: 'OFFICE HOURS', value: '09:00 AM - 06:00 PM', sub: 'CLOSED ON SUNDAYS' }

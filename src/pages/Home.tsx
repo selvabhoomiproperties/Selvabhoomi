@@ -271,20 +271,20 @@ export default function Home() {
                             }
                         ].map((card, i) => (
                             <RevealOnScroll key={i} delay={i * 0.2} width="100%">
-                                <div className={`group relative bg-gradient-to-br ${card.theme} rounded-[4rem] p-16 border border-white/5 hover:border-emerald-500/30 transition-all duration-700 h-full flex flex-col shadow-2xl overflow-hidden`}>
+                                <div className={`group relative bg-gradient-to-br ${card.theme} rounded-[2.5rem] sm:rounded-[3rem] md:rounded-[4rem] p-6 sm:p-10 md:p-16 border border-white/5 hover:border-emerald-500/30 transition-all duration-700 h-full flex flex-col shadow-2xl overflow-hidden`}>
                                     <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_0%_0%,_rgba(16,185,129,0.1)_0%,_transparent_50%)]"></div>
 
                                     <div className="relative z-10 flex-grow">
-                                        <div className="mb-8 flex items-start justify-between gap-4">
-                                            <div className="w-24 h-24 bg-white/85 rounded-3xl flex items-center justify-center border border-white/10 group-hover:scale-110 transition-transform duration-500 shadow-2xl">
-                                                <card.icon className="w-12 h-12 text-emerald-400" />
+                                        <div className="mb-6 sm:mb-8 flex items-start justify-between gap-3 sm:gap-4">
+                                            <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-white/85 rounded-2xl sm:rounded-3xl flex items-center justify-center border border-white/10 group-hover:scale-110 transition-transform duration-500 shadow-2xl">
+                                                <card.icon className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-emerald-400" />
                                             </div>
                                             {card.label && (
                                                 <EditableText
                                                     id={`home_offer_${i}_label`}
                                                     content={card.label}
                                                     as="div"
-                                                    className="inline-block bg-emerald-500 text-black text-[10px] font-black px-4 py-1.5 rounded-lg tracking-[0.3em] shadow-2xl mt-1"
+                                                    className="inline-block bg-emerald-500 text-black text-[9px] sm:text-[10px] font-black px-3 sm:px-4 py-1.5 rounded-lg tracking-[0.16em] sm:tracking-[0.3em] shadow-2xl mt-1"
                                                 />
                                             )}
                                         </div>
@@ -293,31 +293,31 @@ export default function Home() {
                                             id={`home_offer_${i}_title`}
                                             content={card.title}
                                             as="h3"
-                                            className="text-4xl font-black text-slate-900 mb-8 uppercase italic tracking-tighter group-hover:translate-x-3 transition-transform duration-500"
+                                            className="text-3xl sm:text-4xl font-black text-slate-900 mb-6 sm:mb-8 uppercase italic tracking-tighter group-hover:translate-x-2 sm:group-hover:translate-x-3 transition-transform duration-500"
                                         />
                                         <EditableText
                                             id={`home_offer_${i}_desc`}
                                             content={`"${card.desc}"`}
                                             as="p"
-                                            className="text-slate-600 mb-12 leading-relaxed font-light text-xl italic opacity-80 group-hover:opacity-100 transition-opacity"
+                                            className="text-slate-600 mb-8 sm:mb-12 leading-relaxed font-light text-lg sm:text-xl italic opacity-80 group-hover:opacity-100 transition-opacity"
                                         />
 
-                                        <div className="grid grid-cols-2 gap-6 mb-16">
+                                        <div className="grid grid-cols-2 gap-3 sm:gap-5 md:gap-6 mb-10 sm:mb-14 md:mb-16">
                                             {card.points.map((pt, j) => (
-                                                <div key={j} className="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/5 group-hover:border-emerald-500/10 transition-colors">
-                                                    <div className="w-2 h-2 rounded-full bg-emerald-500/50 group-hover:bg-emerald-500 group-hover:scale-125 transition-all duration-500"></div>
+                                                <div key={j} className="flex items-center gap-2 sm:gap-3 md:gap-4 bg-white/5 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-white/5 group-hover:border-emerald-500/10 transition-colors">
+                                                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-500/50 group-hover:bg-emerald-500 group-hover:scale-125 transition-all duration-500 shrink-0"></div>
                                                     <EditableText
                                                         id={`home_offer_${i}_pt_${j}`}
                                                         content={pt}
                                                         as="span"
-                                                        className="text-[10px] font-black text-slate-600 uppercase tracking-widest"
+                                                        className="text-[10px] sm:text-[11px] font-black text-slate-600 uppercase tracking-[0.12em] sm:tracking-[0.2em] leading-tight"
                                                     />
                                                 </div>
                                             ))}
                                         </div>
                                     </div>
 
-                                    <button className="relative z-10 w-full py-6 rounded-2xl font-black text-xs uppercase tracking-[0.4em] border border-white/20 bg-white/90 text-black transition-all duration-700 shadow-2xl">
+                                    <button className="relative z-10 w-full py-4 sm:py-5 md:py-6 rounded-2xl font-black text-[11px] sm:text-xs uppercase tracking-[0.22em] sm:tracking-[0.3em] md:tracking-[0.4em] border border-white/20 bg-white/90 text-black transition-all duration-700 shadow-2xl">
                                         <EditableText id={`home_offer_${i}_btn`} content="Access Database" as="span" />
                                     </button>
                                 </div>
