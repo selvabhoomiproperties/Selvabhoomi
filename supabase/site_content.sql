@@ -10,4 +10,4 @@ insert into public.site_content (key, value) values
   ('hero_title', 'Secure Land Assets'),
   ('hero_subtitle', 'Built for Legacy'),
   ('contact_email', 'admin@selvabhoomiproperties.in'),
-  ('contact_phone', '+91 91 76002 530');
+  ('contact_phone', '+91 93630 88689');

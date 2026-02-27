@@ -4,8 +4,10 @@ import { supabase } from '../lib/supabase';
 import RevealOnScroll from '../components/ui/reveal-on-scroll';
 import { motion, AnimatePresence } from 'framer-motion';
 import { EditableText, EditableImage } from '../components/ui/EditableContent';
+import { useSiteSettings } from '../hooks/useSiteSettings';
 
 export default function Contact() {
+    const { settings } = useSiteSettings();
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [formData, setFormData] = useState({
@@ -91,7 +93,7 @@ export default function Contact() {
                                 <div className="space-y-6 sm:space-y-8 md:space-y-12">
                                     {[
                                         { icon: MapPin, title: 'OUR OFFICE LOCATION', value: 'No.30, 1st Floor, Venkadeshwara Nagar, 2nd Street, Valasaravakkam, Chennai-600087' },
-                                        { icon: Phone, title: 'GIVE US A CALL', value: '+91 91 76002 530', sub: 'AVAILABLE: MON-SAT, 09:00 AM - 06:00 PM' },
+                                        { icon: Phone, title: 'GIVE US A CALL', value: settings.contact_phone || '+91 93630 88689', sub: 'AVAILABLE: MON-SAT, 09:00 AM - 06:00 PM' },
                                         { icon: Mail, title: 'SEND US AN EMAIL', value: 'admin@selvabhoomiproperties.in' },
                                         { icon: Clock, title: 'OFFICE HOURS', value: '09:00 AM - 06:00 PM', sub: 'CLOSED ON SUNDAYS' }
                                     ].map((item, i) => (

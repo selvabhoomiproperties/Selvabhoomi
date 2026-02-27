@@ -22,7 +22,7 @@ with check (auth.role() = 'authenticated');
 -- Insert default settings
 insert into public.site_settings (key, value) values
   ('contact_email', 'admin@selvabhoomiproperties.in'),
-  ('contact_phone', '+91 91 76002 530'),
+  ('contact_phone', '+91 93630 88689'),
   ('hero_title', 'SECURE THE'),
   ('hero_subtitle', 'ORIGIN'),
   ('hero_tag', 'PARANDUR AIRPORT CORRIDOR'),

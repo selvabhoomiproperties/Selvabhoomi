@@ -93,7 +93,7 @@ export default function Footer() {
                                 </div>
                                 <EditableText
                                     id="contact_phone"
-                                    content={settings.contact_phone || '+91 91 76002 530'}
+                                    content={settings.contact_phone || '+91 93630 88689'}
                                     as="span"
                                     className="text-white font-black text-sm tracking-widest"
                                 />
