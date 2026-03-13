@@ -114,12 +114,20 @@ export default function Footer() {
                 </div>
 
                 <RevealOnScroll delay={0.5} className="pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 md:gap-10">
-                    <EditableText
-                        id="footer_copy"
-                        content="&copy; 2024 SELVABHOOMI PROPERTIES. ARCHITECTS OF LEGACY."
-                        as="p"
-                        className="text-gray-600 font-black text-[10px] tracking-[0.2em] sm:tracking-[0.3em] md:tracking-[0.4em] uppercase text-center md:text-left"
-                    />
+                    <div className="flex flex-col gap-2">
+                        <EditableText
+                            id="footer_copy"
+                            content="&copy; 2024 SELVABHOOMI PROPERTIES. ARCHITECTS OF LEGACY."
+                            as="p"
+                            className="text-gray-600 font-black text-[10px] tracking-[0.2em] sm:tracking-[0.3em] md:tracking-[0.4em] uppercase text-center md:text-left"
+                        />
+                        <Link 
+                            to="/about" 
+                            className="text-emerald-500/60 hover:text-emerald-500 font-black text-[10px] tracking-[0.2em] transition-colors text-center md:text-left uppercase italic"
+                        >
+                            Director: M.SUBRAMANIAN
+                        </Link>
+                    </div>
                     <div className="flex flex-wrap justify-center md:justify-end gap-x-5 gap-y-3 md:gap-x-10 text-[10px] font-black text-emerald-500/40 tracking-[0.2em] sm:tracking-[0.35em] md:tracking-[0.5em] uppercase italic w-full md:w-auto">
                         <span className="flex items-center gap-2 whitespace-nowrap"><Shield className="w-3 h-3 shrink-0" /> <EditableText id="footer_cred_1" content="Security First" as="span" /></span>
                         <span className="flex items-center gap-2 whitespace-nowrap"><Globe className="w-3 h-3 shrink-0" /> <EditableText id="footer_cred_2" content="Global Standard" as="span" /></span>

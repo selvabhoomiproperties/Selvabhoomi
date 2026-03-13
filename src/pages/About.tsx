@@ -77,6 +77,48 @@ export default function About() {
                 </div>
             </section>
 
+            {/* Director Section */}
+            <section className="py-24 mb-32 relative">
+                <div className="max-w-7xl mx-auto">
+                    <div className="grid lg:grid-cols-2 gap-16 items-center">
+                        <RevealOnScroll>
+                            <div className="relative group">
+                                <div className="absolute -inset-4 bg-emerald-500/10 blur-3xl rounded-[4rem] group-hover:bg-emerald-500/20 transition-all duration-1000"></div>
+                                <div className="relative rounded-[3.5rem] overflow-hidden border border-white/10 shadow-2xl">
+                                    <EditableImage
+                                        id="about_director_image"
+                                        src="/director.jpg"
+                                        alt="Director M.SUBRAMANIAN"
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-all duration-1000"
+                                    />
+                                </div>
+                            </div>
+                        </RevealOnScroll>
+                        <RevealOnScroll delay={0.2}>
+                            <h2 className="text-[10px] font-black text-emerald-500 mb-8 uppercase tracking-[0.6em] flex items-center gap-4 italic px-4 py-2 border border-emerald-500/20 rounded-xl w-fit">
+                                <Users className="w-4 h-4" />
+                                <EditableText id="about_director_tag" content="Leadership" as="span" />
+                            </h2>
+                            <h3 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 mb-8 uppercase italic leading-[1] tracking-tighter">
+                                <EditableText id="about_director_title_prefix" content="Our" as="span" /> <EditableText id="about_director_name_accent" content="Director" as="span" className="bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent italic" />
+                            </h3>
+                            <EditableText
+                                id="about_director_name_large"
+                                content="M.SUBRAMANIAN"
+                                as="h4"
+                                className="text-2xl font-bold text-slate-800 mb-6 tracking-tight uppercase"
+                            />
+                            <EditableText
+                                id="about_director_bio"
+                                content='"With over a decade of experience in the real estate sector, M.SUBRAMANIAN has been the driving force behind Selvabhoomi Properties. His vision of absolute transparency and professional land management has helped hundreds of families secure their future through trusted land investments."'
+                                as="p"
+                                className="text-lg lg:text-xl text-gray-500 font-light italic leading-relaxed mb-12"
+                            />
+                        </RevealOnScroll>
+                    </div>
+                </div>
+            </section>
+
             {/* The Architecture Section */}
             <section className="py-32 lg:py-40 px-6 md:px-8 lg:px-10 relative overflow-hidden">
                 <div className="absolute top-1/2 left-0 w-1/2 h-full bg-[radial-gradient(circle_at_0%_50%,_#10b98108_0%,_transparent_70%)] pointer-events-none"></div>
