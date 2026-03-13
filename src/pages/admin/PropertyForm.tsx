@@ -91,11 +91,32 @@ export default function PropertyForm() {
     };
 
     const handleImageChange = (index: number, value: string) => {
-        let cleanValue = value;
-        // Check for BBCode [img]url[/img] inside the string
-        const bbCodeMatch = value.match(/\[img\](.*?)\[\/img\]/);
+        let cleanValue = value.trim();
+
+        // 1. Extract from BBCode [img]url[/img]
+        const bbCodeMatch = cleanValue.match(/\[img\](.*?)\[\/img\]/);
         if (bbCodeMatch && bbCodeMatch[1]) {
             cleanValue = bbCodeMatch[1];
+        } 
+        // 2. Extract from HTML <img src="...">
+        else if (cleanValue.includes('<img')) {
+            const srcMatch = cleanValue.match(/src=["'](.*?)["']/);
+            if (srcMatch && srcMatch[1]) {
+                cleanValue = srcMatch[1];
+            }
+        }
+        // 3. Extract from HTML <a href="..."> (pick the img src inside if present)
+        else if (cleanValue.includes('<a')) {
+            const srcMatch = cleanValue.match(/src=["'](.*?)["']/);
+            if (srcMatch && srcMatch[1]) {
+                cleanValue = srcMatch[1];
+            } else {
+                // If no img tag, maybe it's just the link in href
+                const hrefMatch = cleanValue.match(/href=["'](.*?)["']/);
+                if (hrefMatch && hrefMatch[1]) {
+                    cleanValue = hrefMatch[1];
+                }
+            }
         }
 
         const newImages = [...images];
