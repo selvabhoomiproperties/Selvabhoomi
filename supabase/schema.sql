@@ -25,6 +25,12 @@ create policy "Allow public read access"
   to public
   using (true);
 
+-- Allow authenticated users (Admins) to perform all actions
+create policy "Allow authenticated admin access"
+on public.properties for all
+using (auth.role() = 'authenticated')
+with check (auth.role() = 'authenticated');
+
 -- Insert initial data
 insert into public.properties (title, location, price, size, type, images, description, highlights, features, site_plan)
 values
