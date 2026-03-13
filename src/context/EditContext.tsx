@@ -8,6 +8,8 @@ interface EditContextType {
     addChange: (key: string, value: string) => void;
     saveChanges: () => Promise<void>;
     isSaving: boolean;
+    settings: Record<string, string>;
+    loading: boolean;
 }
 
 const EditContext = createContext<EditContextType | undefined>(undefined);
@@ -16,6 +18,26 @@ export function EditProvider({ children }: { children: React.ReactNode }) {
     const [isEditMode, setEditModeState] = useState(false);
     const [pendingChanges, setPendingChanges] = useState<Record<string, string>>({});
     const [isSaving, setIsSaving] = useState(false);
+    const [settings, setSettings] = useState<Record<string, string>>({});
+    const [loading, setLoading] = useState(true);
+
+    const fetchSettings = async () => {
+        try {
+            const { data, error } = await supabase.from('site_settings').select('*');
+            if (error) throw error;
+            if (data) {
+                const map: Record<string, string> = {};
+                data.forEach((row: any) => {
+                    map[row.key] = row.value;
+                });
+                setSettings(map);
+            }
+        } catch (error) {
+            console.error('Error fetching settings:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     // Initial check for edit mode from session storage
     useEffect(() => {
@@ -23,6 +45,7 @@ export function EditProvider({ children }: { children: React.ReactNode }) {
         if (savedMode === 'true') {
             setEditModeState(true);
         }
+        fetchSettings();
     }, []);
 
     const setEditMode = (mode: boolean) => {
@@ -71,7 +94,9 @@ export function EditProvider({ children }: { children: React.ReactNode }) {
             pendingChanges,
             addChange,
             saveChanges,
-            isSaving
+            isSaving,
+            settings,
+            loading
         }}>
             {children}
         </EditContext.Provider>

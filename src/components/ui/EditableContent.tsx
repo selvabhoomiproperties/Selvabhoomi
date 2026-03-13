@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useEdit } from '../../context/EditContext';
 import { Edit, Image as ImageIcon, Check, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -11,14 +11,12 @@ interface EditableTextProps {
 }
 
 export function EditableText({ id, content, className, as: Component = 'div' }: EditableTextProps) {
-    const { isEditMode, addChange, pendingChanges } = useEdit();
-    const [localContent, setLocalContent] = useState(pendingChanges[id] || content);
+    const { isEditMode, addChange, pendingChanges, settings } = useEdit();
+    const [localContent, setLocalContent] = useState(pendingChanges[id] || settings[id] || content);
 
     useEffect(() => {
-        if (pendingChanges[id]) {
-            setLocalContent(pendingChanges[id]);
-        }
-    }, [pendingChanges, id]);
+        setLocalContent(pendingChanges[id] || settings[id] || content);
+    }, [pendingChanges, settings, id, content]);
 
     const handleBlur = (e: React.FocusEvent<any>) => {
         const newText = e.currentTarget.innerText;
@@ -58,17 +56,15 @@ interface EditableImageProps {
 }
 
 export function EditableImage({ id, src, alt, className }: EditableImageProps) {
-    const { isEditMode, addChange, pendingChanges } = useEdit();
+    const { isEditMode, addChange, pendingChanges, settings } = useEdit();
     const [isEditing, setIsEditing] = useState(false);
-    const [tempUrl, setTempUrl] = useState(pendingChanges[id] || src);
-
-    const [currentSrc, setCurrentSrc] = useState(pendingChanges[id] || src);
+    
+    const currentSrc = pendingChanges[id] || settings[id] || src;
+    const [tempUrl, setTempUrl] = useState(currentSrc);
 
     useEffect(() => {
-        if (pendingChanges[id]) {
-            setCurrentSrc(pendingChanges[id]);
-        }
-    }, [pendingChanges, id]);
+        setTempUrl(currentSrc);
+    }, [currentSrc]);
 
     const handleSave = () => {
         addChange(id, tempUrl);
